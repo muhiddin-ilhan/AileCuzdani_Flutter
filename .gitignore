@@ -25,3 +25,22 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+.DS_Store
+*.DS_Store
+aile_cuzdanı_jks
+aile_cuzdanı_jks_info.txt
+android/app/google-services.json
+android/app/release/app-release.aab
+android/app/release/app-release.apk
+android/app/release/output-metadata.json
+db_backup/
+ios/AuthKey_JNV3S367W2.p8
+ios/CertificateSigningRequest.certSigningRequest
+ios/development.cer
+ios/firebase_app_id_file.json
+ios/ios_distribution.cer
+ios/Muhiddin_Distribution.mobileprovision
+ios/Muhiddin_IOS_App_Development.mobileprovision
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+private_key.pepk

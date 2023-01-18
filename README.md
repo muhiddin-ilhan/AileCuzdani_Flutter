@@ -1,2 +1,3 @@
-# AileCuzdani_Flutter
- Ortak Gelir/Gider Takip Uygulaması
+# aile_cuzdani_flutter
+ Aile için gelir-gider takibi
+
