@@ -95,16 +95,11 @@ class HomePage extends StatelessWidget {
                     child: transactionList(
                       viewModel.transactions,
                       scrollController: viewModel.scrollController,
-                      topPadding: (((viewModel.maxFontSizeTitle +
-                                      viewModel.maxFontSizePrice) -
-                                  (viewModel.fontSizePrice +
-                                      viewModel.fontSizeTitle)) *
-                              2) +
+                      topPadding: (((viewModel.maxFontSizeTitle + viewModel.maxFontSizePrice) - (viewModel.fontSizePrice + viewModel.fontSizeTitle)) * 2) +
                           (viewModel.maxIconSize - viewModel.iconSize),
                       isLoading: false,
                       onTap: (DTOTransaction transaction) async {
-                        bool? result = await showAddIncomePopup(context,
-                            transaction: transaction);
+                        bool? result = await showAddIncomePopup(context, transaction: transaction);
 
                         if (result == true) {
                           viewModel.getTransactions(context);
@@ -140,8 +135,7 @@ class HomePage extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Provider.of<BottomNavBarProvider>(context, listen: false)
-                  .goPage(1);
+              Provider.of<BottomNavBarProvider>(context, listen: false).goPage(1);
             },
             child: Text(
               "Tümünü Gör",
@@ -223,9 +217,7 @@ class HomePage extends StatelessWidget {
             return SizedBox(height: viewModel.isOtherMenuVisible ? 8 : 0);
           }),
           Observer(builder: (context) {
-            return viewModel.isOtherMenuVisible
-                ? menuOtherCardButtons(context)
-                : const SizedBox();
+            return viewModel.isOtherMenuVisible ? menuOtherCardButtons(context) : const SizedBox();
           }),
           const SizedBox(height: 14),
         ],
@@ -248,7 +240,7 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            "₺${viewModel.totalValues != null ? viewModel.totalValues!.currentMonthIncome!.currencyFormat() : 0.0.currencyFormat()}",
+            "₺${viewModel.totalValues != null ? viewModel.totalValues!.myAssetsAccount!.currencyFormat() : 0.0.currencyFormat()}",
             style: TextStyle(
               color: const Color.fromARGB(255, 118, 231, 182),
               fontWeight: FontWeight.w600,
@@ -272,7 +264,7 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            "₺${viewModel.totalValues != null ? viewModel.totalValues!.currentMonthIncome!.currencyFormat() : 0.0.currencyFormat()}",
+            "₺${viewModel.totalValues != null ? viewModel.totalValues!.myAssetsGold!.currencyFormat() : 0.0.currencyFormat()}",
             style: TextStyle(
               color: const Color.fromARGB(255, 118, 231, 182),
               fontWeight: FontWeight.w600,
@@ -296,7 +288,7 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            "₺${viewModel.totalValues != null ? viewModel.totalValues!.currentMonthIncome!.currencyFormat() : 0.0.currencyFormat()}",
+            "₺${viewModel.totalValues != null ? viewModel.totalValues!.myAssetsCurrency!.currencyFormat() : 0.0.currencyFormat()}",
             style: TextStyle(
               color: const Color.fromARGB(255, 118, 231, 182),
               fontWeight: FontWeight.w600,
@@ -320,7 +312,7 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            "₺${viewModel.totalValues != null ? viewModel.totalValues!.currentMonthIncome!.currencyFormat() : 0.0.currencyFormat()}",
+            "₺${viewModel.totalValues != null ? viewModel.totalValues!.myAssetsCurrency!.currencyFormat() : 0.0.currencyFormat()}",
             style: TextStyle(
               color: const Color.fromARGB(255, 118, 231, 182),
               fontWeight: FontWeight.w600,
@@ -344,7 +336,7 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            "₺${viewModel.totalValues != null ? viewModel.totalValues!.currentMonthIncome!.currencyFormat() : 0.0.currencyFormat()}",
+            "₺${viewModel.totalValues != null ? viewModel.totalValues!.myAssetsCoin!.currencyFormat() : 0.0.currencyFormat()}",
             style: TextStyle(
               color: const Color.fromARGB(255, 118, 231, 182),
               fontWeight: FontWeight.w600,
@@ -365,8 +357,7 @@ class HomePage extends StatelessWidget {
           title: "Gelir",
           icon: Icons.addchart_rounded,
           onTap: () async {
-            bool? result =
-                await showAddIncomePopup(context, state: ExpenseState.income);
+            bool? result = await showAddIncomePopup(context, state: ExpenseState.income);
 
             if (result == true) {
               viewModel.getTransactions(context);
@@ -390,9 +381,7 @@ class HomePage extends StatelessWidget {
           icon: Icons.account_balance_wallet_outlined,
           iconColor: Colors.cyan[600],
           onTap: () async {
-            NavigateUtils.pushAndRemoveUntil(context,
-                page: const MenuView(),
-                animationState: NavigateAnimationState.nonAnimation);
+            NavigateUtils.pushAndRemoveUntil(context, page: const MenuView(), animationState: NavigateAnimationState.nonAnimation);
           },
         ),
         menuCardItem(
@@ -445,25 +434,18 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget menuCardItem(
-      {required String title,
-      required IconData icon,
-      Color? iconColor,
-      required Function() onTap}) {
+  Widget menuCardItem({required String title, required IconData icon, Color? iconColor, required Function() onTap}) {
     return Column(
       children: [
         Container(
           margin: EdgeInsets.zero,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: CustomColors.OFF_WHITE,
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 10,
-                  spreadRadius: 2,
-                  color: Colors.white.withOpacity(0.3),
-                ),
-              ]),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: CustomColors.OFF_WHITE, boxShadow: [
+            BoxShadow(
+              blurRadius: 10,
+              spreadRadius: 2,
+              color: Colors.white.withOpacity(0.3),
+            ),
+          ]),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
@@ -471,8 +453,7 @@ class HomePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               splashColor: CustomColors.GREEN,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Observer(builder: (_) {
                   return Icon(
                     icon,
@@ -497,94 +478,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget incomeExpenseTexts() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 1.0),
-      child: Observer(builder: (_) {
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Gelir",
-                  style: TextStyle(
-                    color: CustomColors.WHITE.withOpacity(0.6),
-                    fontFamily: "JosefinSans",
-                    fontSize: viewModel.fontSizeTitle,
-                  ),
-                ),
-                Text(
-                  "₺${viewModel.totalValues != null ? viewModel.totalValues!.currentMonthIncome!.currencyFormat() : 0.0.currencyFormat()}",
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 118, 231, 182),
-                    fontWeight: FontWeight.w600,
-                    fontSize: viewModel.fontSizePrice,
-                    height: 1,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(width: viewModel.fontSizePrice),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Gider",
-                  style: TextStyle(
-                    color: CustomColors.WHITE.withOpacity(0.6),
-                    fontFamily: "JosefinSans",
-                    fontSize: viewModel.fontSizeTitle,
-                  ),
-                ),
-                Text(
-                  "₺${viewModel.totalValues != null ? (viewModel.totalValues!.currentMonthExpense! * -1).currencyFormat() : 0.0.currencyFormat()}",
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 249, 166, 166),
-                    fontWeight: FontWeight.w600,
-                    fontSize: viewModel.fontSizePrice,
-                    height: 1,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
-      }),
-    );
-  }
-
-  Widget lastMonthPriceText() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 1.0),
-      child: Observer(builder: (_) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Geçen Aydan Devreden",
-              style: TextStyle(
-                color: CustomColors.WHITE.withOpacity(0.6),
-                fontFamily: "JosefinSans",
-                fontSize: viewModel.fontSizeTitle,
-              ),
-            ),
-            Text(
-              "₺${viewModel.totalValues != null ? (viewModel.totalValues!.lastMonthBalance!).currencyFormat() : 0.0.currencyFormat()}",
-              style: TextStyle(
-                color: const Color.fromARGB(255, 208, 185, 142),
-                fontWeight: FontWeight.w600,
-                fontSize: viewModel.fontSizePrice,
-                height: 1,
-              ),
-            ),
-          ],
-        );
-      }),
-    );
-  }
-
   List<Widget> totalBalanceText() {
     return [
       Observer(builder: (_) {
@@ -604,7 +497,13 @@ class HomePage extends StatelessWidget {
       }),
       Observer(builder: (_) {
         return Text(
-          "₺${viewModel.totalValues != null ? viewModel.totalValues!.totalBalance!.currencyFormat() : 0.0.currencyFormat()}",
+          viewModel.tabIndex == 0
+              ? "₺${viewModel.totalValues != null ? viewModel.totalValues!.myAssetsSpecial!.currencyFormat() : 0.0.currencyFormat()}"
+              : viewModel.tabIndex == 1
+                  ? "₺${viewModel.totalValues != null ? viewModel.totalValues!.myAssetsAll!.currencyFormat() : 0.0.currencyFormat()}"
+                  : viewModel.tabIndex == 2
+                      ? "₺${viewModel.totalValues != null ? viewModel.totalValues!.myBorrowsThisMonth!.currencyFormat() : 0.0.currencyFormat()}"
+                      : "₺${viewModel.totalValues != null ? viewModel.totalValues!.myBorrowsTotal!.currencyFormat() : 0.0.currencyFormat()}",
           style: const TextStyle(
             color: CustomColors.WHITE,
             fontWeight: FontWeight.w800,
@@ -639,30 +538,22 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  viewModel.tabIndex == 0
-                      ? Icons.circle
-                      : Icons.circle_outlined,
+                  viewModel.tabIndex == 0 ? Icons.circle : Icons.circle_outlined,
                   color: Colors.white,
                   size: 12,
                 ),
                 Icon(
-                  viewModel.tabIndex == 1
-                      ? Icons.circle
-                      : Icons.circle_outlined,
+                  viewModel.tabIndex == 1 ? Icons.circle : Icons.circle_outlined,
                   color: Colors.white,
                   size: 12,
                 ),
                 Icon(
-                  viewModel.tabIndex == 2
-                      ? Icons.circle
-                      : Icons.circle_outlined,
+                  viewModel.tabIndex == 2 ? Icons.circle : Icons.circle_outlined,
                   color: Colors.white,
                   size: 12,
                 ),
                 Icon(
-                  viewModel.tabIndex == 3
-                      ? Icons.circle
-                      : Icons.circle_outlined,
+                  viewModel.tabIndex == 3 ? Icons.circle : Icons.circle_outlined,
                   color: Colors.white,
                   size: 12,
                 ),

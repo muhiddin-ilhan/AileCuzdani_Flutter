@@ -27,6 +27,8 @@ class DTOBucket extends BaseModel<DTOBucket> {
   String? platform;
   int? type;
   int? show_my_assets;
+  int? credit_card_pay_day;
+  int? credit_card_last_pay_month;
   String? cekilecek_hesap_id;
 
   DTOBucket({
@@ -48,6 +50,8 @@ class DTOBucket extends BaseModel<DTOBucket> {
     this.show_my_assets,
     this.type,
     this.cekilecek_hesap_id,
+    this.credit_card_last_pay_month,
+    this.credit_card_pay_day,
   });
 
   factory DTOBucket.fromJson(Map<String, dynamic> json) {

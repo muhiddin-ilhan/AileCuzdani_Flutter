@@ -258,6 +258,33 @@ Widget creditCardList(List<DTOBucket> bucket, {Function(DTOBucket)? onTap}) {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          "Son Ödeme Tarihi",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Color.fromARGB(201, 59, 59, 59),
+                            fontFamily: "JosefinSans",
+                            fontSize: 12,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "${bucket[index].credit_card_pay_day ?? 0}/${(bucket[index].credit_card_last_pay_month ?? 0)}/${DateTime.now().year}",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.pink.shade900,
+                          fontFamily: "JosefinSans",
+                          fontSize: 13,
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

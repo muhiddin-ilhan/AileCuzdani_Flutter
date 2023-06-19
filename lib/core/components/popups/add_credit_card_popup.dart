@@ -14,22 +14,26 @@ Future<bool?> showAddCreditCardPopup(BuildContext context, {bool isEditing = fal
   TextEditingController cardNameController = TextEditingController();
   TextEditingController cardLimitController = TextEditingController();
   TextEditingController cardBorrowController = TextEditingController();
+  TextEditingController cardLastDayController = TextEditingController();
 
   bool isShowMyAssets = true;
 
   String? errorTitleName = "";
   String? errorTitleLimit = "";
   String? errorTitleBorrow = "";
+  String? errorTitleLastDay = "";
 
   if (bucket != null) {
     cardNameController.text = bucket.title ?? "";
     cardLimitController.text = (bucket.credit_card_limit ?? 0.0).toString();
     cardBorrowController.text = (bucket.credit_card_borrow ?? 0.0).toString();
+    cardLastDayController.text = (bucket.credit_card_pay_day ?? 0.0).toString();
     isShowMyAssets = bucket.show_my_assets == 1;
 
     errorTitleName = cardNameController.text.alphanumericValidation() ? null : "";
     errorTitleLimit = (bucket.credit_card_limit ?? 0) < 0 ? "" : null;
     errorTitleBorrow = (bucket.credit_card_borrow ?? 0) < 0 ? "" : null;
+    errorTitleLastDay = ((bucket.credit_card_pay_day ?? -1) < 32 && (bucket.credit_card_pay_day ?? -1) > 0) ? null : "";
   }
 
   List<Widget> cardNameArea(Function(void Function()) setState) {
@@ -159,6 +163,49 @@ Future<bool?> showAddCreditCardPopup(BuildContext context, {bool isEditing = fal
     ];
   }
 
+  List<Widget> cardLastDayArea(Function(void Function()) setState) {
+    return [
+      const Padding(
+        padding: EdgeInsets.fromLTRB(13, 10, 0, 0),
+        child: Text(
+          "Son Ödeme Günü (1-31)",
+          style: TextStyle(
+            fontFamily: "JosefinSans",
+            color: Color.fromARGB(255, 81, 81, 81),
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(10, 3, 10, 0),
+        child: customTextbox(
+          context,
+          isMinusNumber: true,
+          isNumber: true,
+          borderRadius: 8,
+          fontSize: 12,
+          height: 40,
+          contentPaddingHorizontal: 12,
+          hintText: "0",
+          minWidthPrefix: 40,
+          maxLength: 12,
+          inputType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+          controller: cardLastDayController,
+          suffixIcon: cardLastDayController.text.isNotEmpty && errorTitleLastDay != null
+              ? customTooltip(message: "Lütfen Geçerli Sayı Giriniz", child: const Icon(Icons.warning_amber, color: CustomColors.DARK_GREEN))
+              : null,
+          onChanged: (text) {
+            int limit = int.tryParse(text) ?? -1;
+            errorTitleLastDay = (limit < 32 && limit > 0) ? null : "";
+            setState(() {});
+          },
+        ),
+      ),
+    ];
+  }
+
   Widget showMyAssetsToggle(Function(void Function()) setState) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(13, 10, 3, 0),
@@ -241,13 +288,15 @@ Future<bool?> showAddCreditCardPopup(BuildContext context, {bool isEditing = fal
                 ...cardNameArea(setState),
                 ...cardLimitArea(setState),
                 ...cardBorrowArea(setState),
+                ...cardLastDayArea(setState),
                 if (isEditing) showMyAssetsToggle(setState),
                 button(
                   context,
                   enabled: errorTitleName == null &&
                       errorTitleLimit == null &&
                       errorTitleBorrow == null &&
-                      ((double.tryParse(cardLimitController.text) ?? 0.0) > (double.tryParse(cardBorrowController.text) ?? 0.0)),
+                      ((double.tryParse(cardLimitController.text) ?? 0.0) > (double.tryParse(cardBorrowController.text) ?? 0.0)) &&
+                      ((int.tryParse(cardLastDayController.text) ?? 0) > 0 && (int.tryParse(cardLastDayController.text) ?? 0) < 32),
                   onClear: () async {
                     LoadingUtils.instance.loading(true);
 
@@ -278,6 +327,8 @@ Future<bool?> showAddCreditCardPopup(BuildContext context, {bool isEditing = fal
                       credit_card_borrow: borrow,
                       credit_card_limit: limit,
                       show_my_assets: isShowMyAssets ? 1 : 0,
+                      credit_card_pay_day: int.tryParse(cardLastDayController.text) ?? 1,
+                      credit_card_last_pay_month: DateTime.now().month < 12 ? DateTime.now().month + 1 : 1,
                       type: 1,
                     );
 

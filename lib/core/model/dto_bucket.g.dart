@@ -31,6 +31,8 @@ DTOBucket _$DTOBucketFromJson(Map<String, dynamic> json) => DTOBucket(
       show_my_assets: json['show_my_assets'] as int?,
       type: json['type'] as int?,
       cekilecek_hesap_id: json['cekilecek_hesap_id'] as String?,
+      credit_card_last_pay_month: json['credit_card_last_pay_month'] as int?,
+      credit_card_pay_day: json['credit_card_pay_day'] as int?,
     );
 
 Map<String, dynamic> _$DTOBucketToJson(DTOBucket instance) => <String, dynamic>{
@@ -51,5 +53,7 @@ Map<String, dynamic> _$DTOBucketToJson(DTOBucket instance) => <String, dynamic>{
       'platform': instance.platform,
       'type': instance.type,
       'show_my_assets': instance.show_my_assets,
+      'credit_card_pay_day': instance.credit_card_pay_day,
+      'credit_card_last_pay_month': instance.credit_card_last_pay_month,
       'cekilecek_hesap_id': instance.cekilecek_hesap_id,
     };

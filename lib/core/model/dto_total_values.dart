@@ -8,22 +8,38 @@ part 'dto_total_values.g.dart';
 
 @JsonSerializable()
 class DTOTotalValues extends BaseModel<DTOTotalValues> {
-  double? totalCount;
-  double? totalExpense;
+  double? myAssetsSpecial;
+  double? myAssetsAll;
+  double? myAssetsAccount;
+  double? myAssetsGold;
+  double? myAssetsCurrency;
+  double? myAssetsBorsa;
+  double? myAssetsCoin;
+  double? myBorrowsThisMonth;
+  double? myBorrowsThisMonthCreditCards;
+  double? myBorrowsThisMonthCredi;
+  double? myBorrowsTotal;
+  double? myBorrowsCredi;
   double? totalIncome;
-  double? totalBalance;
-  double? lastMonthBalance;
-  double? currentMonthExpense;
-  double? currentMonthIncome;
+  double? totalExpense;
+  double? totalCount;
 
   DTOTotalValues({
+    this.myAssetsAccount,
+    this.myAssetsAll,
+    this.myAssetsBorsa,
+    this.myAssetsCoin,
+    this.myAssetsCurrency,
+    this.myAssetsGold,
+    this.myAssetsSpecial,
+    this.myBorrowsCredi,
+    this.myBorrowsThisMonth,
+    this.myBorrowsThisMonthCredi,
+    this.myBorrowsThisMonthCreditCards,
+    this.myBorrowsTotal,
     this.totalCount,
     this.totalExpense,
     this.totalIncome,
-    this.currentMonthExpense,
-    this.currentMonthIncome,
-    this.lastMonthBalance,
-    this.totalBalance,
   });
 
   factory DTOTotalValues.fromJson(Map<String, dynamic> json) {
