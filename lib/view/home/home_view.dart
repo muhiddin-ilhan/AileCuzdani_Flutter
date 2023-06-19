@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:aile_cuzdani/core/base/base_view.dart';
-import 'package:aile_cuzdani/core/components/custom_showcase.dart';
 import 'package:aile_cuzdani/core/components/popups/add_expense_popup.dart';
 import 'package:aile_cuzdani/core/components/popups/message_popup.dart';
 import 'package:aile_cuzdani/core/components/transactions_list.dart';
@@ -13,49 +12,24 @@ import 'package:aile_cuzdani/core/utils/expense_enum.dart';
 import 'package:aile_cuzdani/core/utils/loading_utils.dart';
 import 'package:aile_cuzdani/core/utils/navigate_animation_state.dart';
 import 'package:aile_cuzdani/core/utils/navigate_utils.dart';
-import 'package:aile_cuzdani/core/utils/shared_preferences.dart';
 import 'package:aile_cuzdani/core/utils/sizer_utils.dart';
-import 'package:aile_cuzdani/view/cards/cards_view.dart';
-import 'package:aile_cuzdani/view/family/family_view.dart';
+import 'package:aile_cuzdani/view/assets/menu/menu_view.dart';
+import 'package:aile_cuzdani/view/borclar/borclar_view.dart';
 import 'package:aile_cuzdani/view/home/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:showcaseview/showcaseview.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final HomeViewModel viewModel = HomeViewModel();
-  final GlobalKey _totalExpenseShowCase = GlobalKey();
-  final GlobalKey _incomeExpenseShowCase = GlobalKey();
-  final GlobalKey _expenseButtonShowCase = GlobalKey();
-  final GlobalKey _incomeButtonShowCase = GlobalKey();
-  final GlobalKey _familyButtonShowCase = GlobalKey();
-  final GlobalKey _cardsButtonShowCase = GlobalKey();
-  final GlobalKey _thisMonthTransactionsShowCase = GlobalKey();
 
   initState(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       viewModel.scrollController.addListener(viewModel.scrollListener);
       await viewModel.getTransactions(context);
-
-      bool showCase = await SharedManager.instance.getBoolValue("HomeViewShowCase") ?? false;
-
-      if (!showCase) {
-        ShowCaseWidget.of(context).startShowCase([
-          _totalExpenseShowCase,
-          _incomeExpenseShowCase,
-          _incomeButtonShowCase,
-          _expenseButtonShowCase,
-          _familyButtonShowCase,
-          _cardsButtonShowCase,
-          _thisMonthTransactionsShowCase,
-        ]);
-
-        await SharedManager.instance.setBoolValue("HomeViewShowCase", true);
-      }
     });
   }
 
@@ -118,23 +92,24 @@ class HomePage extends StatelessWidget {
                   bottomSectionTitle(context),
                   const SizedBox(height: 10),
                   Expanded(
-                    child: customShowCase(
-                      key: _thisMonthTransactionsShowCase,
-                      description: "Ay İçerisinde Yapılmış Gelir/Giderler Burada Kronolojik Sırayla Görüntülenir",
-                      child: transactionList(
-                        viewModel.transactions,
-                        scrollController: viewModel.scrollController,
-                        topPadding: (((viewModel.maxFontSizeTitle + viewModel.maxFontSizePrice) - (viewModel.fontSizePrice + viewModel.fontSizeTitle)) * 2) +
-                            (viewModel.maxIconSize - viewModel.iconSize),
-                        isLoading: false,
-                        onTap: (DTOTransaction transaction) async {
-                          bool? result = await showAddIncomePopup(context, transaction: transaction);
+                    child: transactionList(
+                      viewModel.transactions,
+                      scrollController: viewModel.scrollController,
+                      topPadding: (((viewModel.maxFontSizeTitle +
+                                      viewModel.maxFontSizePrice) -
+                                  (viewModel.fontSizePrice +
+                                      viewModel.fontSizeTitle)) *
+                              2) +
+                          (viewModel.maxIconSize - viewModel.iconSize),
+                      isLoading: false,
+                      onTap: (DTOTransaction transaction) async {
+                        bool? result = await showAddIncomePopup(context,
+                            transaction: transaction);
 
-                          if (result == true) {
-                            viewModel.getTransactions(context);
-                          }
-                        },
-                      ),
+                        if (result == true) {
+                          viewModel.getTransactions(context);
+                        }
+                      },
                     ),
                   ),
                 ],
@@ -165,7 +140,8 @@ class HomePage extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Provider.of<BottomNavBarProvider>(context, listen: false).goPage(1);
+              Provider.of<BottomNavBarProvider>(context, listen: false)
+                  .goPage(1);
             },
             child: Text(
               "Tümünü Gör",
@@ -192,116 +168,302 @@ class HomePage extends StatelessWidget {
           const SizedBox(height: 8),
           appBar(context),
           const SizedBox(height: 8),
-          customShowCase(
-            key: _totalExpenseShowCase,
-            description: "Ay İçerisinde Yapılan Gelir/Giderlerin Sonucunu Gösterir",
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ...totalBalanceText(),
-              ],
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ...totalBalanceText(),
+                  ],
+                ),
+              ),
+              Material(
+                color: CustomColors.DARK_GREEN,
+                borderRadius: BorderRadius.circular(8),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () {
+                    if (viewModel.tabIndex == 3) {
+                      viewModel.tabIndex = 0;
+                      return;
+                    }
+                    viewModel.tabIndex++;
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.keyboard_arrow_right,
+                      size: 32,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
-          customShowCase(
-            key: _incomeExpenseShowCase,
-            description: "Ay İçerisinde Yapılan Gelir/Gider'i ve Geçen Aydan Devreden Parayı Gösterir",
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                incomeExpenseTexts(),
-                Observer(builder: (_) {
-                  return SizedBox(height: viewModel.fontSizeTitle + 1);
-                }),
-                lastMonthPriceText(),
-              ],
-            ),
-          ),
+          Observer(builder: (_) {
+            return viewModel.tabIndex == 1
+                ? Column(
+                    children: [
+                      ...allAssetsList(),
+                    ],
+                  )
+                : const SizedBox();
+          }),
           Observer(builder: (_) {
             return SizedBox(height: viewModel.fontSizeTitle + 1);
           }),
           menuCardButtons(context),
+          Observer(builder: (_) {
+            return SizedBox(height: viewModel.isOtherMenuVisible ? 8 : 0);
+          }),
+          Observer(builder: (context) {
+            return viewModel.isOtherMenuVisible
+                ? menuOtherCardButtons(context)
+                : const SizedBox();
+          }),
           const SizedBox(height: 14),
         ],
       ),
     );
   }
 
+  List<Widget> allAssetsList() {
+    return [
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "Hesaplarım",
+            style: TextStyle(
+              color: CustomColors.WHITE.withOpacity(0.6),
+              fontFamily: "JosefinSans",
+              fontSize: viewModel.fontSizeTitle,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            "₺${viewModel.totalValues != null ? viewModel.totalValues!.currentMonthIncome!.currencyFormat() : 0.0.currencyFormat()}",
+            style: TextStyle(
+              color: const Color.fromARGB(255, 118, 231, 182),
+              fontWeight: FontWeight.w600,
+              fontSize: viewModel.fontSizeTitle,
+              height: 1,
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 8),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "Altın",
+            style: TextStyle(
+              color: CustomColors.WHITE.withOpacity(0.6),
+              fontFamily: "JosefinSans",
+              fontSize: viewModel.fontSizeTitle,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            "₺${viewModel.totalValues != null ? viewModel.totalValues!.currentMonthIncome!.currencyFormat() : 0.0.currencyFormat()}",
+            style: TextStyle(
+              color: const Color.fromARGB(255, 118, 231, 182),
+              fontWeight: FontWeight.w600,
+              fontSize: viewModel.fontSizeTitle,
+              height: 1,
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 8),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "Döviz",
+            style: TextStyle(
+              color: CustomColors.WHITE.withOpacity(0.6),
+              fontFamily: "JosefinSans",
+              fontSize: viewModel.fontSizeTitle,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            "₺${viewModel.totalValues != null ? viewModel.totalValues!.currentMonthIncome!.currencyFormat() : 0.0.currencyFormat()}",
+            style: TextStyle(
+              color: const Color.fromARGB(255, 118, 231, 182),
+              fontWeight: FontWeight.w600,
+              fontSize: viewModel.fontSizeTitle,
+              height: 1,
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 8),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "Borsa",
+            style: TextStyle(
+              color: CustomColors.WHITE.withOpacity(0.6),
+              fontFamily: "JosefinSans",
+              fontSize: viewModel.fontSizeTitle,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            "₺${viewModel.totalValues != null ? viewModel.totalValues!.currentMonthIncome!.currencyFormat() : 0.0.currencyFormat()}",
+            style: TextStyle(
+              color: const Color.fromARGB(255, 118, 231, 182),
+              fontWeight: FontWeight.w600,
+              fontSize: viewModel.fontSizeTitle,
+              height: 1,
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 8),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "Coin",
+            style: TextStyle(
+              color: CustomColors.WHITE.withOpacity(0.6),
+              fontFamily: "JosefinSans",
+              fontSize: viewModel.fontSizeTitle,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            "₺${viewModel.totalValues != null ? viewModel.totalValues!.currentMonthIncome!.currencyFormat() : 0.0.currencyFormat()}",
+            style: TextStyle(
+              color: const Color.fromARGB(255, 118, 231, 182),
+              fontWeight: FontWeight.w600,
+              fontSize: viewModel.fontSizeTitle,
+              height: 1,
+            ),
+          ),
+        ],
+      ),
+    ];
+  }
+
   Widget menuCardButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        customShowCase(
-          key: _incomeButtonShowCase,
-          description: "Yeni Bir Gelir Eklemek İçin Bu Butonu Kullanın",
-          child: menuCardItem(
-            title: "Gelir",
-            icon: Icons.addchart_rounded,
-            onTap: () async {
-              bool? result = await showAddIncomePopup(context, state: ExpenseState.income);
+        menuCardItem(
+          title: "Gelir",
+          icon: Icons.addchart_rounded,
+          onTap: () async {
+            bool? result =
+                await showAddIncomePopup(context, state: ExpenseState.income);
 
-              if (result == true) {
-                viewModel.getTransactions(context);
-              }
-            },
-          ),
+            if (result == true) {
+              viewModel.getTransactions(context);
+            }
+          },
         ),
-        customShowCase(
-          key: _expenseButtonShowCase,
-          description: "Yeni Bir Harcama Eklemek İçin Bu Butonu Kullanın",
-          child: menuCardItem(
-            title: "Harcama",
-            icon: Icons.discount_outlined,
-            iconColor: const Color.fromARGB(255, 167, 120, 40),
-            onTap: () async {
-              bool? result = await showAddIncomePopup(context);
+        menuCardItem(
+          title: "Harcama",
+          icon: Icons.discount_outlined,
+          iconColor: const Color.fromARGB(255, 167, 120, 40),
+          onTap: () async {
+            bool? result = await showAddIncomePopup(context);
 
-              if (result == true) {
-                viewModel.getTransactions(context);
-              }
-            },
-          ),
+            if (result == true) {
+              viewModel.getTransactions(context);
+            }
+          },
         ),
-        customShowCase(
-          key: _familyButtonShowCase,
-          description: "Aile Üyelerini ve Aile Katılım Taleplerini Görmek İçin Bu Sayfaya Bakabilirsiniz",
-          child: menuCardItem(
-            title: "Aile",
-            icon: Icons.groups_outlined,
-            iconColor: CustomColors.DARK_GREY,
-            onTap: () {
-              NavigateUtils.pushAndRemoveUntil(context, page: const FamilyView(), animationState: NavigateAnimationState.nonAnimation);
-            },
-          ),
+        menuCardItem(
+          title: "Varlık",
+          icon: Icons.account_balance_wallet_outlined,
+          iconColor: Colors.cyan[600],
+          onTap: () async {
+            NavigateUtils.pushAndRemoveUntil(context,
+                page: const MenuView(),
+                animationState: NavigateAnimationState.nonAnimation);
+          },
         ),
-        customShowCase(
-          key: _cardsButtonShowCase,
-          description: "Ailede Bulunan Kartları Görmek ve Yönetmek İçin Bu Sayfaya Bakabilirsiniz",
-          child: menuCardItem(
-            title: "Kartlar",
-            iconColor: const Color.fromARGB(255, 66, 105, 171),
-            icon: Icons.payments_outlined,
-            onTap: () {
-              NavigateUtils.pushAndRemoveUntil(context, page: const CardsView(), animationState: NavigateAnimationState.nonAnimation);
-            },
-          ),
+        menuCardItem(
+          title: "",
+          icon: Icons.more_horiz_rounded,
+          iconColor: CustomColors.DARK_GREY,
+          onTap: () async {
+            viewModel.isOtherMenuVisible = !viewModel.isOtherMenuVisible;
+          },
         ),
       ],
     );
   }
 
-  Widget menuCardItem({required String title, required IconData icon, Color? iconColor, required Function() onTap}) {
+  Widget menuOtherCardButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        menuCardItem(
+          title: "Borçlar",
+          icon: Icons.receipt_outlined,
+          iconColor: Colors.blueGrey,
+          onTap: () async {
+            NavigateUtils.pushAndRemoveUntil(
+              context,
+              page: const BorclarView(),
+              animationState: NavigateAnimationState.nonAnimation,
+            );
+          },
+        ),
+        menuCardItem(
+          title: "Ailem",
+          iconColor: Colors.greenAccent[800],
+          icon: Icons.groups_2_outlined,
+          onTap: () {},
+        ),
+        menuCardItem(
+          title: "",
+          icon: Icons.check_box_outline_blank,
+          iconColor: CustomColors.OFF_WHITE,
+          onTap: () {},
+        ),
+        menuCardItem(
+          title: "",
+          icon: Icons.check_box_outline_blank,
+          iconColor: CustomColors.OFF_WHITE,
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+
+  Widget menuCardItem(
+      {required String title,
+      required IconData icon,
+      Color? iconColor,
+      required Function() onTap}) {
     return Column(
       children: [
         Container(
           margin: EdgeInsets.zero,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: CustomColors.OFF_WHITE, boxShadow: [
-            BoxShadow(
-              blurRadius: 10,
-              spreadRadius: 2,
-              color: Colors.white.withOpacity(0.3),
-            ),
-          ]),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: CustomColors.OFF_WHITE,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 10,
+                  spreadRadius: 2,
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ]),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
@@ -309,7 +471,8 @@ class HomePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               splashColor: CustomColors.GREEN,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Observer(builder: (_) {
                   return Icon(
                     icon,
@@ -424,13 +587,21 @@ class HomePage extends StatelessWidget {
 
   List<Widget> totalBalanceText() {
     return [
-      Text(
-        "Toplam Bakiye",
-        style: TextStyle(
-          color: CustomColors.WHITE.withOpacity(0.6),
-          fontFamily: "JosefinSans",
-        ),
-      ),
+      Observer(builder: (_) {
+        return Text(
+          viewModel.tabIndex == 0
+              ? "Varlığım (Özel)"
+              : viewModel.tabIndex == 1
+                  ? "Varlığım (Tümü)"
+                  : viewModel.tabIndex == 2
+                      ? "Borçlarım (Bu Ay)"
+                      : "Borçlarım (Tümü)",
+          style: TextStyle(
+            color: CustomColors.WHITE.withOpacity(0.6),
+            fontFamily: "JosefinSans",
+          ),
+        );
+      }),
       Observer(builder: (_) {
         return Text(
           "₺${viewModel.totalValues != null ? viewModel.totalValues!.totalBalance!.currencyFormat() : 0.0.currencyFormat()}",
@@ -462,7 +633,43 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        const Spacer(),
+        Expanded(
+          child: Observer(builder: (_) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  viewModel.tabIndex == 0
+                      ? Icons.circle
+                      : Icons.circle_outlined,
+                  color: Colors.white,
+                  size: 12,
+                ),
+                Icon(
+                  viewModel.tabIndex == 1
+                      ? Icons.circle
+                      : Icons.circle_outlined,
+                  color: Colors.white,
+                  size: 12,
+                ),
+                Icon(
+                  viewModel.tabIndex == 2
+                      ? Icons.circle
+                      : Icons.circle_outlined,
+                  color: Colors.white,
+                  size: 12,
+                ),
+                Icon(
+                  viewModel.tabIndex == 3
+                      ? Icons.circle
+                      : Icons.circle_outlined,
+                  color: Colors.white,
+                  size: 12,
+                ),
+              ],
+            );
+          }),
+        ),
         Material(
           color: Colors.transparent,
           child: InkWell(

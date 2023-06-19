@@ -7,6 +7,9 @@ class BucketProvider extends ChangeNotifier {
   List<DTOBucket> _buckets = [];
   List<DTOBucket> get buckets => _buckets;
 
+  List<DTOBucket> _creditCards = [];
+  List<DTOBucket> get creditCards => _creditCards;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
@@ -14,7 +17,7 @@ class BucketProvider extends ChangeNotifier {
     _buckets = [];
     setLoading(true);
 
-    List<DTOBucket>? response = await BucketServices.getAllFamilyBucket();
+    List<DTOBucket>? response = await BucketServices.getAllFamilyBucket(type: 0);
 
     if (response != null) {
       _buckets = response;
@@ -23,8 +26,22 @@ class BucketProvider extends ChangeNotifier {
     setLoading(false);
   }
 
+  Future getCreditCards(BuildContext context) async {
+    _creditCards = [];
+    setLoading(true);
+
+    List<DTOBucket>? response = await BucketServices.getAllFamilyBucket(type: 1);
+
+    if (response != null) {
+      _creditCards = response;
+    }
+
+    setLoading(false);
+  }
+
   reset() {
     _isLoading = false;
+    _creditCards = [];
     _buckets = [];
     notifyListeners();
   }

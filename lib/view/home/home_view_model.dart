@@ -19,6 +19,10 @@ abstract class HomeViewModelBase with Store {
   DTOTotalValues? totalValues;
   @observable
   ScrollController scrollController = ScrollController();
+  @observable
+  bool isOtherMenuVisible = true;
+  @observable
+  int tabIndex = 0;
 
   @observable
   double fontSizePrice = 20;

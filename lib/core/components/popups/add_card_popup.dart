@@ -115,6 +115,8 @@ Future<bool?> showAddCardPopup(BuildContext context, {DTOBucket? bucket}) async 
                       id: bucket?.id,
                       title: controllerTitle.text,
                       money: double.tryParse("${controller.text}.${controllerKurus.text}") ?? 0,
+                      show_my_assets: 1,
+                      type: 0,
                     );
 
                     bool response;

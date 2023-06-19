@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:aile_cuzdani/core/components/custom_textbox.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +31,8 @@ Widget customDateTimePicker(
               initialEntryMode: TimePickerEntryMode.input,
               builder: (BuildContext context, Widget? child) {
                 return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+                  data: MediaQuery.of(context)
+                      .copyWith(alwaysUse24HourFormat: true),
                   child: child!,
                 );
               },
@@ -44,10 +47,13 @@ Widget customDateTimePicker(
             date ??= DateTime.now();
             time ??= TimeOfDay.now();
 
-            String month = date.month < 10 ? "0${date.month}" : date.month.toString();
+            String month =
+                date.month < 10 ? "0${date.month}" : date.month.toString();
             String day = date.day < 10 ? "0${date.day}" : date.day.toString();
-            String hour = time.hour < 10 ? "0${time.hour}" : time.hour.toString();
-            String minute = time.minute < 10 ? "0${time.minute}" : time.minute.toString();
+            String hour =
+                time.hour < 10 ? "0${time.hour}" : time.hour.toString();
+            String minute =
+                time.minute < 10 ? "0${time.minute}" : time.minute.toString();
 
             String dateTime = "${date.year}-$month-${day}T$hour:$minute:00.000";
             DateTime fullTime = DateTime.parse(dateTime);

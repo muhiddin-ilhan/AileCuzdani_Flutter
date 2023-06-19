@@ -129,8 +129,8 @@ class _CardsViewState extends State<CardsView> {
               },
               isLoading: false,
               backgroundColor: CustomColors.DARK_GREEN,
-              child: Row(
-                children: const [
+              child: const Row(
+                children: [
                   Icon(
                     Icons.sync_alt,
                     color: CustomColors.WHITE,

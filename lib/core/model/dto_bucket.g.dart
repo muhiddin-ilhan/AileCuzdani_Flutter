@@ -22,6 +22,15 @@ DTOBucket _$DTOBucketFromJson(Map<String, dynamic> json) => DTOBucket(
           ? null
           : DTOUser.fromJson(json['user'] as Map<String, dynamic>),
       user_id: json['user_id'] as String?,
+      count: (json['count'] as num?)?.toDouble(),
+      credit_card_borrow: (json['credit_card_borrow'] as num?)?.toDouble(),
+      credit_card_limit: (json['credit_card_limit'] as num?)?.toDouble(),
+      currency_type: json['currency_type'] as String?,
+      gold_type: json['gold_type'] as String?,
+      platform: json['platform'] as String?,
+      show_my_assets: json['show_my_assets'] as int?,
+      type: json['type'] as int?,
+      cekilecek_hesap_id: json['cekilecek_hesap_id'] as String?,
     );
 
 Map<String, dynamic> _$DTOBucketToJson(DTOBucket instance) => <String, dynamic>{
@@ -34,4 +43,13 @@ Map<String, dynamic> _$DTOBucketToJson(DTOBucket instance) => <String, dynamic>{
       'modified_at': instance.modified_at?.toIso8601String(),
       'is_deleted': instance.is_deleted,
       'user': instance.user,
+      'credit_card_limit': instance.credit_card_limit,
+      'credit_card_borrow': instance.credit_card_borrow,
+      'count': instance.count,
+      'gold_type': instance.gold_type,
+      'currency_type': instance.currency_type,
+      'platform': instance.platform,
+      'type': instance.type,
+      'show_my_assets': instance.show_my_assets,
+      'cekilecek_hesap_id': instance.cekilecek_hesap_id,
     };

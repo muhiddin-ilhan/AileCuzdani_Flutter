@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:aile_cuzdani/core/base/base_view.dart';
-import 'package:aile_cuzdani/core/components/custom_showcase.dart';
 import 'package:aile_cuzdani/core/components/popups/add_expense_popup.dart';
 import 'package:aile_cuzdani/core/components/transactions_list.dart';
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
@@ -31,7 +30,9 @@ class TransactionsView extends StatelessWidget {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await viewModel.getTransactions(context);
 
-      bool showCase = await SharedManager.instance.getBoolValue("TransactionsPageShowCase") ?? false;
+      bool showCase = await SharedManager.instance
+              .getBoolValue("TransactionsPageShowCase") ??
+          false;
 
       if (!showCase) {
         ShowCaseWidget.of(context).startShowCase([
@@ -39,7 +40,8 @@ class TransactionsView extends StatelessWidget {
           _listShowCase,
         ]);
 
-        await SharedManager.instance.setBoolValue("TransactionsPageShowCase", true);
+        await SharedManager.instance
+            .setBoolValue("TransactionsPageShowCase", true);
       }
     });
   }
@@ -109,25 +111,22 @@ class TransactionsView extends StatelessWidget {
                   bottomSectionTitle(context),
                   const SizedBox(height: 10),
                   Expanded(
-                    child: customShowCase(
-                      key: _listShowCase,
-                      description: "Aile İçinde Yapılan Tüm İşlemler Burada Listelenir",
-                      child: transactionList(
-                        viewModel.transactions,
-                        isLoading: false,
-                        onTap: (DTOTransaction transaction) async {
-                          bool? result = await showAddIncomePopup(context, transaction: transaction);
+                    child: transactionList(
+                      viewModel.transactions,
+                      isLoading: false,
+                      onTap: (DTOTransaction transaction) async {
+                        bool? result = await showAddIncomePopup(context,
+                            transaction: transaction);
 
-                          if (result == true) {
-                            viewModel.getTransactions(context);
-                          }
-                        },
-                        currentPage: viewModel.currentPage,
-                        totalPage: viewModel.totalPage,
-                        onPageTap: (int pageNumber) {
-                          viewModel.getTransactions(context, page: pageNumber);
-                        },
-                      ),
+                        if (result == true) {
+                          viewModel.getTransactions(context);
+                        }
+                      },
+                      currentPage: viewModel.currentPage,
+                      totalPage: viewModel.totalPage,
+                      onPageTap: (int pageNumber) {
+                        viewModel.getTransactions(context, page: pageNumber);
+                      },
                     ),
                   ),
                 ],
@@ -301,21 +300,17 @@ class TransactionsView extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        customShowCase(
-          key: _filterButtonShowCase,
-          description: "İşlemleri Detaylı Şekilde Listelemek İçin Bunu Kullanın",
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () async {
-                showFilterTransactionPopup(context, viewModel);
-              },
-              borderRadius: BorderRadius.circular(10),
-              child: const Icon(
-                Icons.filter_alt,
-                color: CustomColors.WHITE,
-                size: 28,
-              ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () async {
+              showFilterTransactionPopup(context, viewModel);
+            },
+            borderRadius: BorderRadius.circular(10),
+            child: const Icon(
+              Icons.filter_alt,
+              color: CustomColors.WHITE,
+              size: 28,
             ),
           ),
         ),

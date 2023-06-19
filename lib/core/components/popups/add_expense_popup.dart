@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:aile_cuzdani/core/api/transaction/transaction_services.dart';
-import 'package:aile_cuzdani/core/components/custom_showcase.dart';
 import 'package:aile_cuzdani/core/components/custom_tooltip.dart';
 import 'package:aile_cuzdani/core/components/date_time_picker.dart';
 import 'package:aile_cuzdani/core/components/dropdowns/bucket_dropdown.dart';
@@ -49,7 +48,9 @@ Future<bool?> showAddIncomePopup(BuildContext context, {ExpenseState state = Exp
 
   if (transaction != null) {
     controller.text = (transaction.price ?? 0.0).toString().split(".")[0];
-    if (controller.text.contains("-")) controller.text = controller.text.replaceAll("-", "");
+    if (controller.text.contains("-")) {
+      controller.text = controller.text.replaceAll("-", "");
+    }
     controllerKurus.text = (transaction.price ?? 0.0).toString().split(".")[1];
     controllerTitle.text = transaction.title ?? "";
     controllerDescription.text = transaction.description ?? "";
@@ -103,110 +104,92 @@ Future<bool?> showAddIncomePopup(BuildContext context, {ExpenseState state = Exp
               mainAxisSize: MainAxisSize.min,
               children: [
                 appBar(state, transaction),
-                customShowCase(
-                  key: priceShowCase,
-                  description: "Yaptığınız Gelir/Gider Miktarını Buraya Girebilirsiniz",
-                  child: priceTextbox(
-                    context,
-                    controller,
-                    controllerKurus,
-                    (text) {
-                      setState(() {});
-                    },
-                    loading,
-                  ),
+                priceTextbox(
+                  context,
+                  controller,
+                  controllerKurus,
+                  (text) {
+                    setState(() {});
+                  },
+                  loading,
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
                   child: Consumer<BucketProvider>(builder: (_, provider, __) {
                     selectedBucket ??= provider.buckets.isNotEmpty ? provider.buckets.first : null;
-                    return customShowCase(
-                      key: cardShowCase,
-                      description: "Gelir/Gider Yaptığınız Kartı Seçebileciğiniz Alan",
-                      child: bucketDropdown(
-                        items: provider.buckets,
-                        value: selectedBucket,
-                        loading: loading || provider.isLoading,
-                        onSelected: (DTOBucket? val) {
-                          selectedBucket = val;
-                          setState(() {});
-                        },
-                      ),
+                    return bucketDropdown(
+                      items: provider.buckets,
+                      value: selectedBucket,
+                      loading: loading || provider.isLoading,
+                      onSelected: (DTOBucket? val) {
+                        selectedBucket = val;
+                        setState(() {});
+                      },
                     );
                   }),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                  child: customShowCase(
-                    key: categoryShowCase,
-                    description: "Gelir/Gider Yaptığınız Kategoriyi Seçebileceğiniz Alan",
-                    child: customDropdown<String>(
-                      prefixIcon: const Icon(Icons.category),
-                      hintText: "Kategori Seçiniz",
-                      enabled: !loading,
-                      dropdownBuilder: (_, String? selectedItem) => Padding(
-                        padding: const EdgeInsets.only(left: 12.0),
-                        child: Text(
-                          selectedItem!,
-                          style: const TextStyle(fontSize: 14),
-                        ),
+                  child: customDropdown<String>(
+                    prefixIcon: const Icon(Icons.category),
+                    hintText: "Kategori Seçiniz",
+                    enabled: !loading,
+                    dropdownBuilder: (_, String? selectedItem) => Padding(
+                      padding: const EdgeInsets.only(left: 12.0),
+                      child: Text(
+                        selectedItem!,
+                        style: const TextStyle(fontSize: 14),
                       ),
-                      items: state == ExpenseState.expense ? AppConstant.categories : AppConstant.categories2,
-                      onChanged: (text) {
-                        selectedCategory = text!;
-                        setState(() {});
-                      },
-                      value: selectedCategory,
                     ),
+                    items: state == ExpenseState.expense ? AppConstant.categories : AppConstant.categories2,
+                    onChanged: (text) {
+                      selectedCategory = text!;
+                      setState(() {});
+                    },
+                    value: selectedCategory,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                  child: customShowCase(
-                    key: dateShowCase,
-                    description: "Gelir/Giderin Gerçekleştiği Saati Belirteceğiniz Alan",
-                    child: customDateTimePicker(
-                      context,
-                      controller: controllerDateTime,
-                      loading: loading,
-                      onCompleted: (DateTime dateTime) {
-                        controllerDateTime.text = dateTime.toDateTimeString();
-                        selectedDateTime = dateTime;
-                        setState(
-                          () {},
-                        );
-                      },
-                    ),
+                  child: customDateTimePicker(
+                    context,
+                    controller: controllerDateTime,
+                    loading: loading,
+                    onCompleted: (DateTime dateTime) {
+                      controllerDateTime.text = dateTime.toDateTimeString();
+                      selectedDateTime = dateTime;
+                      setState(
+                        () {},
+                      );
+                    },
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                  child: customShowCase(
-                    key: descriptionShowCase,
-                    description: "Yaptığınız Gelir/Gidere Dair Açıklama Girebileceğiniz Alan",
-                    child: customTextbox(
-                      context,
-                      borderRadius: 8,
-                      fontSize: 14,
-                      height: 45,
-                      enabled: !loading,
-                      inputType: TextInputType.text,
-                      hintText: "Kısa Açıklama",
-                      isCapitalizeSentence: true,
-                      controller: controllerTitle,
-                      prefixIcon: const Icon(Icons.description),
-                      textInputAction: TextInputAction.done,
-                      suffixIcon: controllerTitle.text.isNotEmpty && errorTitle != null
-                          ? customTooltip(message: "Geçerli bir tanım giriniz lütfen, En fazla 30 karakter", child: const Icon(Icons.warning_amber, color: CustomColors.DARK_GREEN))
-                          : null,
-                      maxLength: 30,
-                      onChanged: (text) {
-                        errorTitle = text.alphanumericValidation() ? null : "";
-                        setState(
-                          () {},
-                        );
-                      },
-                    ),
+                  child: customTextbox(
+                    context,
+                    borderRadius: 8,
+                    fontSize: 14,
+                    height: 45,
+                    enabled: !loading,
+                    inputType: TextInputType.text,
+                    hintText: "Kısa Açıklama",
+                    isCapitalizeSentence: true,
+                    controller: controllerTitle,
+                    prefixIcon: const Icon(Icons.description),
+                    textInputAction: TextInputAction.done,
+                    suffixIcon: controllerTitle.text.isNotEmpty && errorTitle != null
+                        ? customTooltip(
+                            message: "Geçerli bir tanım giriniz lütfen, En fazla 30 karakter",
+                            child: const Icon(Icons.warning_amber, color: CustomColors.DARK_GREEN))
+                        : null,
+                    maxLength: 30,
+                    onChanged: (text) {
+                      errorTitle = text.alphanumericValidation() ? null : "";
+                      setState(
+                        () {},
+                      );
+                    },
                   ),
                 ),
                 button(

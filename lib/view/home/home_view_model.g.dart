@@ -73,6 +73,38 @@ mixin _$HomeViewModel on HomeViewModelBase, Store {
     });
   }
 
+  late final _$isOtherMenuVisibleAtom =
+      Atom(name: 'HomeViewModelBase.isOtherMenuVisible', context: context);
+
+  @override
+  bool get isOtherMenuVisible {
+    _$isOtherMenuVisibleAtom.reportRead();
+    return super.isOtherMenuVisible;
+  }
+
+  @override
+  set isOtherMenuVisible(bool value) {
+    _$isOtherMenuVisibleAtom.reportWrite(value, super.isOtherMenuVisible, () {
+      super.isOtherMenuVisible = value;
+    });
+  }
+
+  late final _$tabIndexAtom =
+      Atom(name: 'HomeViewModelBase.tabIndex', context: context);
+
+  @override
+  int get tabIndex {
+    _$tabIndexAtom.reportRead();
+    return super.tabIndex;
+  }
+
+  @override
+  set tabIndex(int value) {
+    _$tabIndexAtom.reportWrite(value, super.tabIndex, () {
+      super.tabIndex = value;
+    });
+  }
+
   late final _$fontSizePriceAtom =
       Atom(name: 'HomeViewModelBase.fontSizePrice', context: context);
 
@@ -215,6 +247,8 @@ isLoading: ${isLoading},
 transactions: ${transactions},
 totalValues: ${totalValues},
 scrollController: ${scrollController},
+isOtherMenuVisible: ${isOtherMenuVisible},
+tabIndex: ${tabIndex},
 fontSizePrice: ${fontSizePrice},
 maxFontSizePrice: ${maxFontSizePrice},
 fontSizeTitle: ${fontSizeTitle},

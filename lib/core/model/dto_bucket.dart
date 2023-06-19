@@ -19,6 +19,15 @@ class DTOBucket extends BaseModel<DTOBucket> {
   DateTime? modified_at;
   int? is_deleted;
   DTOUser? user;
+  double? credit_card_limit;
+  double? credit_card_borrow;
+  double? count;
+  String? gold_type;
+  String? currency_type;
+  String? platform;
+  int? type;
+  int? show_my_assets;
+  String? cekilecek_hesap_id;
 
   DTOBucket({
     this.created_at,
@@ -30,6 +39,15 @@ class DTOBucket extends BaseModel<DTOBucket> {
     this.money,
     this.user,
     this.user_id,
+    this.count,
+    this.credit_card_borrow,
+    this.credit_card_limit,
+    this.currency_type,
+    this.gold_type,
+    this.platform,
+    this.show_my_assets,
+    this.type,
+    this.cekilecek_hesap_id,
   });
 
   factory DTOBucket.fromJson(Map<String, dynamic> json) {

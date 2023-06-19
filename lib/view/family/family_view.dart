@@ -43,8 +43,7 @@ class _FamilyViewState extends State<FamilyView> {
 
   onBackPress(BuildContext context) {
     if (!LoadingUtils.instance.isLoadingActive()) {
-      Provider.of<BottomNavBarProvider>(context, listen: false)
-          .setCurrentIndex(0);
+      Provider.of<BottomNavBarProvider>(context, listen: false).setCurrentIndex(0);
       NavigateUtils.pushAndRemoveUntil(
         context,
         page: const CustomBottomNavBar(),
@@ -160,22 +159,18 @@ class _FamilyViewState extends State<FamilyView> {
           separatorBuilder: (context, index) => const SizedBox(height: 5),
           itemBuilder: (context, index) => listCardItem(
             onTap: () {
-              showUserDetailPopup(context,
-                  user: viewModel.family!.users![index]);
+              showUserDetailPopup(context, user: viewModel.family!.users![index]);
             },
-            titleText:
-                "${viewModel.family!.users![index].name.firstCapitalize()} ${viewModel.family!.users![index].surname.firstCapitalize()}",
+            titleText: "${viewModel.family!.users![index].name.firstCapitalize()} ${viewModel.family!.users![index].surname.firstCapitalize()}",
             subTitleText: "Aile Üyesi",
             suffixWidget: InkWell(
               onTap: () {
                 showMessagePopup(
                   context,
-                  message:
-                      "${viewModel.family!.users![index].name} ${viewModel.family!.users![index].surname} Kişisini Aileden Çıkartmak İstiyor musunuz?",
+                  message: "${viewModel.family!.users![index].name} ${viewModel.family!.users![index].surname} Kişisini Aileden Çıkartmak İstiyor musunuz?",
                   title: "Üyelik Feshi",
                   onAcceptTap: () {
-                    viewModel.removeFamilyMember(context,
-                        user: viewModel.family!.users![index]);
+                    viewModel.removeFamilyMember(context, user: viewModel.family!.users![index]);
                   },
                   onAccessTitle: "Evet",
                   onRejectTap: () {},
@@ -231,23 +226,18 @@ class _FamilyViewState extends State<FamilyView> {
           separatorBuilder: (context, index) => const SizedBox(height: 5),
           itemBuilder: (context, index) => listCardItem(
             onTap: null,
-            titleText:
-                "${viewModel.familyRequests[index].users!.name.firstCapitalize()} ${viewModel.familyRequests[index].users!.surname.firstCapitalize()}",
-            subTitleText:
-                viewModel.familyRequests[index].created_at!.toDateTimeString(),
+            titleText: "${viewModel.familyRequests[index].users!.name.firstCapitalize()} ${viewModel.familyRequests[index].users!.surname.firstCapitalize()}",
+            subTitleText: viewModel.familyRequests[index].created_at!.toDateTimeString(),
             suffixWidget: Row(
               children: [
                 InkWell(
                   onTap: () {
                     showMessagePopup(
                       context,
-                      message:
-                          "Aile Talebini Reddetmek İstediğinize Emin misiniz?",
+                      message: "Aile Talebini Reddetmek İstediğinize Emin misiniz?",
                       title: "Talebi Reddet",
                       onAcceptTap: () {
-                        viewModel.answerFamilyRequest(context,
-                            isAccept: false,
-                            familyRequest: viewModel.familyRequests[index]);
+                        viewModel.answerFamilyRequest(context, isAccept: false, familyRequest: viewModel.familyRequests[index]);
                       },
                       onAccessTitle: "Evet",
                       onRejectTap: () {},
@@ -272,13 +262,10 @@ class _FamilyViewState extends State<FamilyView> {
                   onTap: () {
                     showMessagePopup(
                       context,
-                      message:
-                          "Aile Talebini Onaylamak İstediğinize Emin misiniz?",
+                      message: "Aile Talebini Onaylamak İstediğinize Emin misiniz?",
                       title: "Talebi Onayla",
                       onAcceptTap: () {
-                        viewModel.answerFamilyRequest(context,
-                            isAccept: true,
-                            familyRequest: viewModel.familyRequests[index]);
+                        viewModel.answerFamilyRequest(context, isAccept: true, familyRequest: viewModel.familyRequests[index]);
                       },
                       onAccessTitle: "Evet",
                       onRejectTap: () {},
@@ -307,12 +294,12 @@ class _FamilyViewState extends State<FamilyView> {
   }
 
   Widget bottomSectionTitle() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 28.0, right: 28, top: 28),
+    return const Padding(
+      padding: EdgeInsets.only(left: 28.0, right: 28, top: 28),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Text(
             "Ailem",
             style: TextStyle(
@@ -366,9 +353,7 @@ class _FamilyViewState extends State<FamilyView> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  viewModel.family != null
-                      ? viewModel.family!.users!.length.toString()
-                      : "0",
+                  viewModel.family != null ? viewModel.family!.users!.length.toString() : "0",
                   style: const TextStyle(
                     color: Color.fromARGB(255, 118, 231, 182),
                     fontWeight: FontWeight.w600,
@@ -392,9 +377,7 @@ class _FamilyViewState extends State<FamilyView> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  viewModel.familyRequests.isNotEmpty
-                      ? viewModel.familyRequests.length.toString()
-                      : "0",
+                  viewModel.familyRequests.isNotEmpty ? viewModel.familyRequests.length.toString() : "0",
                   style: const TextStyle(
                     color: Color.fromARGB(255, 231, 190, 118),
                     fontWeight: FontWeight.w600,
@@ -414,9 +397,7 @@ class _FamilyViewState extends State<FamilyView> {
     return [
       Observer(builder: (_) {
         return Text(
-          viewModel.family != null
-              ? viewModel.family!.title.firstCapitalize() ?? ""
-              : "...",
+          viewModel.family != null ? viewModel.family!.title.firstCapitalize() ?? "" : "...",
           textAlign: TextAlign.center,
           style: const TextStyle(
             color: CustomColors.OFF_WHITE,
@@ -436,10 +417,7 @@ class _FamilyViewState extends State<FamilyView> {
               message: "Aileyi Terketmek İstediğinize Emin misiniz?",
               title: "Aileyi Terket",
               onAcceptTap: () {
-                viewModel.removeFamilyMember(context,
-                    user: Provider.of<AuthenticationProvider>(context,
-                            listen: false)
-                        .user!);
+                viewModel.removeFamilyMember(context, user: Provider.of<AuthenticationProvider>(context, listen: false).user!);
               },
               onAccessTitle: "Evet",
               onRejectTap: () {},

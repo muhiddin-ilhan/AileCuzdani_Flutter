@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:aile_cuzdani/core/extensions/response_extension.dart';
 import 'package:aile_cuzdani/core/model/dto_bucket.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +12,12 @@ import '../../utils/loading_utils.dart';
 import '../api.dart';
 
 class BucketServices {
-  static Future<List<DTOBucket>?> getAllFamilyBucket() async {
-    DTOResponse? response = await Api.instance!.get(
+  static Future<List<DTOBucket>?> getAllFamilyBucket({int type = 0}) async {
+    DTOResponse? response = await Api.instance!.post(
       endPoint: "bucket/get_all_family_buckets",
+      body: {
+        "type": type,
+      },
       responseModel: DTOResponse(),
     );
 
@@ -68,11 +73,11 @@ class BucketServices {
     return true;
   }
 
-  static Future<bool> transferBetweenBucket({required String senderBucketId, required String recieverBucketId, required double money}) async {
+  static Future<bool> transferBetweenBucket({required String senderBucketId, required String recieverBucketId, required double money, double? count}) async {
     DTOResponse? response = await Api.instance!.post(
       endPoint: "bucket/transfer_between_bucket",
       responseModel: DTOResponse(),
-      body: {"sender_bucket_id": senderBucketId, "reciever_bucket_id": recieverBucketId, "price": money},
+      body: {"sender_bucket_id": senderBucketId, "reciever_bucket_id": recieverBucketId, "price": money, "count": count},
     );
 
     BuildContext context = LoadingUtils.instance.mainBuildContext!;

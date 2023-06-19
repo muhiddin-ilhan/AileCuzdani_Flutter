@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 class AppConstant {
-  // static const BASE_API_URL = "http://192.168.1.112:3000/api/";
-  static const BASE_API_URL = "http://209.97.187.37/api/";
+  static const BASE_API_URL = "http://192.168.1.112:3000/api/";
+  //static const BASE_API_URL = "http://209.97.187.37/api/";
 
   static const List<String> categories = [
     "Market",
@@ -23,6 +23,10 @@ class Assets {
   static const LANG_ASSET_PATH = "assets/lang";
 
   static const LOGO = "assets/image/wallet.png";
+  static const COIN = "assets/icons/coin.png";
+  static const DOLLAR = "assets/icons/dollar.png";
+  static const BORSA = "assets/icons/borsa.png";
+  static const CRYPTO = "assets/icons/crypto.png";
 
   static const CIRCLES_ANIM_URL = "assets/anim/circles_anim.json";
   static const TRUCK_ANIM_URL = "assets/anim/truck_anim.json";

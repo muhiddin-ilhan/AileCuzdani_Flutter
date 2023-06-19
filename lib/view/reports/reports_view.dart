@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:aile_cuzdani/core/base/base_view.dart';
-import 'package:aile_cuzdani/core/components/custom_showcase.dart';
 import 'package:aile_cuzdani/core/components/custom_tab_item.dart';
 import 'package:aile_cuzdani/core/components/report_category_list.dart';
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
@@ -53,7 +52,9 @@ class _MonthlyReportViewState extends State<ReportsView> {
       await viewModel.getChartStatistics();
       await viewModel.getCategorizeReports();
 
-      bool showCase = await SharedManager.instance.getBoolValue("MonthlyReportViewShowCase") ?? false;
+      bool showCase = await SharedManager.instance
+              .getBoolValue("MonthlyReportViewShowCase") ??
+          false;
 
       if (!showCase) {
         ShowCaseWidget.of(context).startShowCase([
@@ -63,7 +64,8 @@ class _MonthlyReportViewState extends State<ReportsView> {
           _listCardShowCase,
         ]);
 
-        await SharedManager.instance.setBoolValue("MonthlyReportViewShowCase", true);
+        await SharedManager.instance
+            .setBoolValue("MonthlyReportViewShowCase", true);
       }
     });
   }
@@ -87,40 +89,28 @@ class _MonthlyReportViewState extends State<ReportsView> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  customShowCase(
-                    key: _yearsShowCase,
-                    description: "Yıllara Göre Yaptığınız Gelir/Giderleri Görmek İçin Buradan Yıl Seçebilirsiniz",
-                    child: yearsListWidget(),
+                  yearsListWidget(),
+                  monthlyTransactionChart(
+                    context,
+                    selectedIndex: viewModel.selectedChartIndex ?? -1,
+                    scrollController: viewModel.chartScrollController,
+                    onTap: (val) {
+                      viewModel.onTapChart(val);
+                    },
+                    widgetHeigth: viewModel.chartHeight,
+                    monthlyChartReport: viewModel.chartReports,
                   ),
-                  customShowCase(
-                    key: _chartShowCase,
-                    description:
-                        "Seçilmiş Yıla Ait Aylık Gelir/Gider Grafiği Burada Görebilirsiniz. Yeşil Çubuk Gelirleri, Turuncu Çubuk Giderleri Temsil Etmektedir",
-                    child: monthlyTransactionChart(
-                      context,
-                      selectedIndex: viewModel.selectedChartIndex ?? -1,
-                      scrollController: viewModel.chartScrollController,
-                      onTap: (val) {
-                        viewModel.onTapChart(val);
-                      },
-                      widgetHeigth: viewModel.chartHeight,
-                      monthlyChartReport: viewModel.chartReports,
-                    ),
-                  ),
-                  if (viewModel.selectedChartIndex != null && viewModel.reportItems != null) ...[
+                  if (viewModel.selectedChartIndex != null &&
+                      viewModel.reportItems != null) ...[
                     const SizedBox(height: 10),
-                    customShowCase(
-                      key: _categoriCardsShowCase,
-                      description: "Grafikte Seçilmiş Döneme Göre Görmek İstediğiniz Rapor Türünü Seçebilirsiniz",
-                      child: tabs(),
-                    ),
+                    tabs(),
                   ],
                   Expanded(
                     child: viewModel.reportItems == null
-                        ? Center(
+                        ? const Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
+                              children: [
                                 Icon(
                                   Icons.report_gmailerrorred,
                                   color: CustomColors.GREY,
@@ -128,47 +118,63 @@ class _MonthlyReportViewState extends State<ReportsView> {
                                 SizedBox(height: 5),
                                 Text(
                                   "Hiçbir Veri Bulunamadı",
-                                  style: TextStyle(color: CustomColors.GREY, fontFamily: "JosefinSans"),
+                                  style: TextStyle(
+                                      color: CustomColors.GREY,
+                                      fontFamily: "JosefinSans"),
                                 ),
                               ],
                             ),
                           )
-                        : customShowCase(
-                            key: _listCardShowCase,
-                            description: "Seçili Döneme Ait Raporlar Burada Görüntülenir, Tıklanarak Detayına Gidilebilir",
-                            child: SingleChildScrollView(
-                              controller: viewModel.scrollController,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 10),
-                                  SizedBox(
-                                    height: Sizer.getHeight(context) * 0.3 - (viewModel.chartHeight),
-                                  ),
-                                  ...reportCategoryList(
-                                    context,
-                                    reportItems: viewModel.reportItems != null ? viewModel.reportItems!.where((e) => e.is_expense == true).toList() : null,
-                                    iconData: viewModel.selectedCategoryTabIndex == 2 ? Icons.wallet : null,
-                                    title: "Giderler",
-                                    onTap: (DTOReportItem item) {
-                                      viewModel.onReportItemClick(context, item, true);
-                                    },
-                                  ),
-                                  const SizedBox(height: 10),
-                                  ...reportCategoryList(
-                                    context,
-                                    reportItems: viewModel.reportItems != null ? viewModel.reportItems!.where((e) => e.is_expense == false).toList() : null,
-                                    iconData: viewModel.selectedCategoryTabIndex == 2 ? Icons.wallet : null,
-                                    title: "Gelirler",
-                                    onTap: (DTOReportItem item) {
-                                      viewModel.onReportItemClick(context, item, false);
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: Sizer.getHeight(context) * 0.3 - (viewModel.chartHeight),
-                                  ),
-                                ],
-                              ),
+                        : SingleChildScrollView(
+                            controller: viewModel.scrollController,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 10),
+                                SizedBox(
+                                  height: Sizer.getHeight(context) * 0.3 -
+                                      (viewModel.chartHeight),
+                                ),
+                                ...reportCategoryList(
+                                  context,
+                                  reportItems: viewModel.reportItems != null
+                                      ? viewModel.reportItems!
+                                          .where((e) => e.is_expense == true)
+                                          .toList()
+                                      : null,
+                                  iconData:
+                                      viewModel.selectedCategoryTabIndex == 2
+                                          ? Icons.wallet
+                                          : null,
+                                  title: "Giderler",
+                                  onTap: (DTOReportItem item) {
+                                    viewModel.onReportItemClick(
+                                        context, item, true);
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                                ...reportCategoryList(
+                                  context,
+                                  reportItems: viewModel.reportItems != null
+                                      ? viewModel.reportItems!
+                                          .where((e) => e.is_expense == false)
+                                          .toList()
+                                      : null,
+                                  iconData:
+                                      viewModel.selectedCategoryTabIndex == 2
+                                          ? Icons.wallet
+                                          : null,
+                                  title: "Gelirler",
+                                  onTap: (DTOReportItem item) {
+                                    viewModel.onReportItemClick(
+                                        context, item, false);
+                                  },
+                                ),
+                                SizedBox(
+                                  height: Sizer.getHeight(context) * 0.3 -
+                                      (viewModel.chartHeight),
+                                ),
+                              ],
                             ),
                           ),
                   ),

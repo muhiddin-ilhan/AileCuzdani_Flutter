@@ -5,14 +5,17 @@ import 'package:flutter/material.dart';
 import '../../view/auth/register/register_view.dart';
 import '../constants/app_constants.dart';
 
-Widget authenticationTabs({required BuildContext context, int? index, required bool isLoading}) {
+Widget authenticationTabs(
+    {required BuildContext context, int? index, required bool isLoading}) {
   return Hero(
     tag: "TABS",
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Material(
-          color: index != null && index == 0 ? CustomColors.OFF_WHITE : CustomColors.WHITE,
+          color: index != null && index == 0
+              ? CustomColors.OFF_WHITE
+              : CustomColors.WHITE,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(12),
             bottomLeft: Radius.circular(12),
@@ -23,7 +26,8 @@ Widget authenticationTabs({required BuildContext context, int? index, required b
                 ? null
                 : () {
                     if (index != 0) {
-                      NavigateUtils.pushAndRemoveUntil(context, page: LoginView());
+                      NavigateUtils.pushAndRemoveUntil(context,
+                          page: LoginView());
                     }
                   },
             borderRadius: const BorderRadius.only(
@@ -39,7 +43,7 @@ Widget authenticationTabs({required BuildContext context, int? index, required b
                 ),
                 border: Border.all(
                   color: CustomColors.DARK_WHITE,
-                  strokeAlign: StrokeAlign.center,
+                  strokeAlign: BorderSide.strokeAlignCenter,
                   width: 0.75,
                 ),
               ),
@@ -63,7 +67,9 @@ Widget authenticationTabs({required BuildContext context, int? index, required b
           ),
         ),
         Material(
-          color: index != null && index == 1 ? CustomColors.OFF_WHITE : CustomColors.WHITE,
+          color: index != null && index == 1
+              ? CustomColors.OFF_WHITE
+              : CustomColors.WHITE,
           borderRadius: const BorderRadius.only(
             topRight: Radius.circular(12),
             bottomRight: Radius.circular(12),
@@ -74,7 +80,8 @@ Widget authenticationTabs({required BuildContext context, int? index, required b
                 ? null
                 : () {
                     if (index != 1) {
-                      NavigateUtils.pushAndRemoveUntil(context, page: RegisterView());
+                      NavigateUtils.pushAndRemoveUntil(context,
+                          page: RegisterView());
                     }
                   },
             borderRadius: const BorderRadius.only(
@@ -90,7 +97,7 @@ Widget authenticationTabs({required BuildContext context, int? index, required b
                 ),
                 border: Border.all(
                   color: CustomColors.DARK_WHITE,
-                  strokeAlign: StrokeAlign.center,
+                  strokeAlign: BorderSide.strokeAlignCenter,
                   width: 0.75,
                 ),
               ),
