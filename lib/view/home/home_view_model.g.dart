@@ -217,6 +217,38 @@ mixin _$HomeViewModel on HomeViewModelBase, Store {
     });
   }
 
+  late final _$sizedBoxAtom =
+      Atom(name: 'HomeViewModelBase.sizedBox', context: context);
+
+  @override
+  double get sizedBox {
+    _$sizedBoxAtom.reportRead();
+    return super.sizedBox;
+  }
+
+  @override
+  set sizedBox(double value) {
+    _$sizedBoxAtom.reportWrite(value, super.sizedBox, () {
+      super.sizedBox = value;
+    });
+  }
+
+  late final _$maxSizedBoxAtom =
+      Atom(name: 'HomeViewModelBase.maxSizedBox', context: context);
+
+  @override
+  double get maxSizedBox {
+    _$maxSizedBoxAtom.reportRead();
+    return super.maxSizedBox;
+  }
+
+  @override
+  set maxSizedBox(double value) {
+    _$maxSizedBoxAtom.reportWrite(value, super.maxSizedBox, () {
+      super.maxSizedBox = value;
+    });
+  }
+
   late final _$getTransactionsAsyncAction =
       AsyncAction('HomeViewModelBase.getTransactions', context: context);
 
@@ -255,7 +287,9 @@ fontSizeTitle: ${fontSizeTitle},
 maxFontSizeTitle: ${maxFontSizeTitle},
 maxIconSize: ${maxIconSize},
 minIconSize: ${minIconSize},
-iconSize: ${iconSize}
+iconSize: ${iconSize},
+sizedBox: ${sizedBox},
+maxSizedBox: ${maxSizedBox}
     ''';
   }
 }

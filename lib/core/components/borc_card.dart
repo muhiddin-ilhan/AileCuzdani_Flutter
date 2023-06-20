@@ -1,8 +1,12 @@
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
+import 'package:aile_cuzdani/core/model/dto_borrow.dart';
 import 'package:flutter/material.dart';
 
 class BorcCard extends StatefulWidget {
-  const BorcCard({super.key});
+  final DTOBorrow borrows;
+  final Function() onTap;
+
+  const BorcCard({super.key, required this.borrows, required this.onTap});
 
   @override
   State<BorcCard> createState() => _BorcCardState();
@@ -29,7 +33,9 @@ class _BorcCardState extends State<BorcCard> {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
-          onTap: () {},
+          onTap: () {
+            widget.onTap();
+          },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -49,28 +55,28 @@ class _BorcCardState extends State<BorcCard> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Text(
-                            "Ev Kredisi",
+                            widget.borrows.title ?? "",
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: CustomColors.LIGHT_BLACK,
                               fontFamily: "JosefinSans",
                               fontSize: 14,
                               height: 1,
                             ),
                           ),
-                          SizedBox(height: 7),
+                          const SizedBox(height: 7),
                           Text(
-                            "Muhiddin İLHAN",
+                            "${widget.borrows.user?.name} ${widget.borrows.user?.surname}",
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color.fromARGB(201, 59, 59, 59),
                               fontFamily: "JosefinSans",
                               fontSize: 12,
@@ -89,31 +95,31 @@ class _BorcCardState extends State<BorcCard> {
                 ),
                 textArea(
                   title: "Ödenecek Miktar",
-                  desc: "₺3667.66",
+                  desc: "₺${(widget.borrows.monthly_price ?? 0)}",
                   color: CustomColors.LIGHT_BLACK,
                 ),
                 const SizedBox(height: 8),
                 textArea(
-                  title: "Toplam Borç",
-                  desc: "₺62000",
+                  title: "Kalan Borç",
+                  desc: "₺${(widget.borrows.total_borrow ?? 0)}",
                   color: Colors.blue.shade900,
                 ),
                 const SizedBox(height: 8),
                 textArea(
                   title: "Son Ödeme Tarihi",
-                  desc: "10/06/2023",
+                  desc: "${widget.borrows.pay_day}/${((widget.borrows.last_paid_month ?? 0) + 1)}/${DateTime.now().year}",
                   color: Colors.green.shade900,
                 ),
                 const SizedBox(height: 8),
                 textArea(
-                  title: "Ödenecek Taksit",
-                  desc: "6",
+                  title: "Ödenen Taksit Sayısı",
+                  desc: "${widget.borrows.paid_taksit}",
                   color: Colors.grey.shade900,
                 ),
                 const SizedBox(height: 8),
                 textArea(
                   title: "Vade",
-                  desc: "48",
+                  desc: "${widget.borrows.total_taksit_count}",
                   color: Colors.grey.shade900,
                 ),
               ],

@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:aile_cuzdani/core/base/base_view.dart';
 import 'package:aile_cuzdani/core/components/popups/add_expense_popup.dart';
 import 'package:aile_cuzdani/core/components/popups/message_popup.dart';
@@ -15,6 +17,7 @@ import 'package:aile_cuzdani/core/utils/navigate_utils.dart';
 import 'package:aile_cuzdani/core/utils/sizer_utils.dart';
 import 'package:aile_cuzdani/view/assets/menu/menu_view.dart';
 import 'package:aile_cuzdani/view/borclar/borclar_view.dart';
+import 'package:aile_cuzdani/view/family/family_view.dart';
 import 'package:aile_cuzdani/view/home/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -207,10 +210,13 @@ class HomePage extends StatelessWidget {
                       ...allAssetsList(),
                     ],
                   )
-                : const SizedBox();
-          }),
-          Observer(builder: (_) {
-            return SizedBox(height: viewModel.fontSizeTitle + 1);
+                : viewModel.tabIndex == 2 || viewModel.tabIndex == 3
+                    ? Column(
+                        children: [
+                          ...borrowDetail(),
+                        ],
+                      )
+                    : const SizedBox();
           }),
           menuCardButtons(context),
           Observer(builder: (_) {
@@ -250,7 +256,9 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      const SizedBox(height: 8),
+      Observer(builder: (_) {
+        return SizedBox(height: viewModel.sizedBox);
+      }),
       Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -274,7 +282,9 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      const SizedBox(height: 8),
+      Observer(builder: (_) {
+        return SizedBox(height: viewModel.sizedBox);
+      }),
       Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -298,7 +308,9 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      const SizedBox(height: 8),
+      Observer(builder: (_) {
+        return SizedBox(height: viewModel.sizedBox);
+      }),
       Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -322,7 +334,9 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      const SizedBox(height: 8),
+      Observer(builder: (_) {
+        return SizedBox(height: viewModel.sizedBox);
+      }),
       Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -346,6 +360,74 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+      Observer(builder: (_) {
+        return SizedBox(height: viewModel.sizedBox);
+      }),
+    ];
+  }
+
+  List<Widget> borrowDetail() {
+    return [
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "Kredi Kartı",
+            style: TextStyle(
+              color: CustomColors.WHITE.withOpacity(0.6),
+              fontFamily: "JosefinSans",
+              fontSize: viewModel.fontSizeTitle,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Observer(builder: (_) {
+            return Text(
+              viewModel.tabIndex == 2
+                  ? "₺${viewModel.totalValues != null ? viewModel.totalValues!.myBorrowsThisMonthCreditCards!.currencyFormat() : 0.0.currencyFormat()}"
+                  : "₺${viewModel.totalValues != null ? viewModel.totalValues!.myBorrowsCreditCards!.currencyFormat() : 0.0.currencyFormat()}",
+              style: TextStyle(
+                color: const Color.fromARGB(255, 118, 231, 182),
+                fontWeight: FontWeight.w600,
+                fontSize: viewModel.fontSizeTitle,
+                height: 1,
+              ),
+            );
+          }),
+        ],
+      ),
+      Observer(builder: (_) {
+        return SizedBox(height: viewModel.sizedBox);
+      }),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "Diğer",
+            style: TextStyle(
+              color: CustomColors.WHITE.withOpacity(0.6),
+              fontFamily: "JosefinSans",
+              fontSize: viewModel.fontSizeTitle,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Observer(builder: (_) {
+            return Text(
+              viewModel.tabIndex == 2
+                  ? "₺${viewModel.totalValues != null ? viewModel.totalValues!.myBorrowsThisMonthCredi!.currencyFormat() : 0.0.currencyFormat()}"
+                  : "₺${viewModel.totalValues != null ? viewModel.totalValues!.myBorrowsCredi!.currencyFormat() : 0.0.currencyFormat()}",
+              style: TextStyle(
+                color: const Color.fromARGB(255, 118, 231, 182),
+                fontWeight: FontWeight.w600,
+                fontSize: viewModel.fontSizeTitle,
+                height: 1,
+              ),
+            );
+          }),
+        ],
+      ),
+      Observer(builder: (_) {
+        return SizedBox(height: viewModel.sizedBox);
+      }),
     ];
   }
 
@@ -416,12 +498,18 @@ class HomePage extends StatelessWidget {
           title: "Ailem",
           iconColor: Colors.greenAccent[800],
           icon: Icons.groups_2_outlined,
-          onTap: () {},
+          onTap: () {
+            NavigateUtils.pushAndRemoveUntil(
+              context,
+              page: const FamilyView(),
+              animationState: NavigateAnimationState.nonAnimation,
+            );
+          },
         ),
         menuCardItem(
-          title: "",
-          icon: Icons.check_box_outline_blank,
-          iconColor: CustomColors.OFF_WHITE,
+          title: "Ödeme",
+          icon: Icons.payments_outlined,
+          iconColor: const Color.fromARGB(255, 150, 76, 121),
           onTap: () {},
         ),
         menuCardItem(

@@ -25,6 +25,7 @@ DTOTotalValues _$DTOTotalValuesFromJson(Map<String, dynamic> json) =>
       totalCount: (json['totalCount'] as num?)?.toDouble(),
       totalExpense: (json['totalExpense'] as num?)?.toDouble(),
       totalIncome: (json['totalIncome'] as num?)?.toDouble(),
+      myBorrowsCreditCards: (json['myBorrowsCreditCards'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$DTOTotalValuesToJson(DTOTotalValues instance) =>
@@ -41,6 +42,7 @@ Map<String, dynamic> _$DTOTotalValuesToJson(DTOTotalValues instance) =>
       'myBorrowsThisMonthCredi': instance.myBorrowsThisMonthCredi,
       'myBorrowsTotal': instance.myBorrowsTotal,
       'myBorrowsCredi': instance.myBorrowsCredi,
+      'myBorrowsCreditCards': instance.myBorrowsCreditCards,
       'totalIncome': instance.totalIncome,
       'totalExpense': instance.totalExpense,
       'totalCount': instance.totalCount,

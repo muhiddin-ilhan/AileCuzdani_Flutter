@@ -20,6 +20,7 @@ class DTOTotalValues extends BaseModel<DTOTotalValues> {
   double? myBorrowsThisMonthCredi;
   double? myBorrowsTotal;
   double? myBorrowsCredi;
+  double? myBorrowsCreditCards;
   double? totalIncome;
   double? totalExpense;
   double? totalCount;
@@ -40,6 +41,7 @@ class DTOTotalValues extends BaseModel<DTOTotalValues> {
     this.totalCount,
     this.totalExpense,
     this.totalIncome,
+    this.myBorrowsCreditCards,
   });
 
   factory DTOTotalValues.fromJson(Map<String, dynamic> json) {

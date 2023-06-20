@@ -1,12 +1,46 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:aile_cuzdani/core/api/borrow/borrow_services.dart';
 import 'package:aile_cuzdani/core/components/custom_material_button.dart';
 import 'package:aile_cuzdani/core/components/custom_textbox.dart';
+import 'package:aile_cuzdani/core/components/custom_tooltip.dart';
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
+import 'package:aile_cuzdani/core/extensions/validation_extension.dart';
+import 'package:aile_cuzdani/core/model/dto_borrow.dart';
 import 'package:aile_cuzdani/core/utils/loading_utils.dart';
 import 'package:flutter/material.dart';
 
-Future<bool?> showPayBorrowPopup(BuildContext context) async {
+Future<bool?> showPayBorrowPopup(BuildContext context, {DTOBorrow? borrow}) async {
+  TextEditingController monthlyPriceController = TextEditingController();
+  TextEditingController totalBorrowController = TextEditingController();
+  TextEditingController payDayController = TextEditingController();
+  TextEditingController taksitNumberController = TextEditingController();
+  TextEditingController paidTaksitController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  String? monthlyPriceError = "";
+  String? totalBorrowError = "";
+  String? payDayError = "";
+  String? taksitNumberError = "";
+  String? paidTaksitError = "";
+  String? descriptionError = "";
+
+  if (borrow != null) {
+    monthlyPriceController.text = (borrow.monthly_price ?? 0).toString();
+    totalBorrowController.text = (borrow.total_borrow ?? 0).toString();
+    payDayController.text = (borrow.pay_day ?? 0).toString();
+    taksitNumberController.text = (borrow.total_taksit_count ?? 0).toString();
+    paidTaksitController.text = (borrow.paid_taksit ?? 0).toString();
+    descriptionController.text = (borrow.title ?? 0).toString();
+
+    monthlyPriceError = (double.tryParse(monthlyPriceController.text) ?? -1) < 1 ? "" : null;
+    totalBorrowError = (double.tryParse(totalBorrowController.text) ?? -1) < 1 ? "" : null;
+    payDayError = (double.tryParse(payDayController.text) ?? -1) < 1 || (double.tryParse(payDayController.text) ?? -1) > 31 ? "" : null;
+    taksitNumberError = (double.tryParse(taksitNumberController.text) ?? -1) < 1 ? "" : null;
+    paidTaksitError = (double.tryParse(paidTaksitController.text) ?? -1) < 1 ? "" : null;
+    descriptionError = descriptionController.text.alphanumericValidation() ? null : "";
+  }
+
   List<Widget> getMontlyPriceArea(Function(void Function()) setState) {
     return [
       const Padding(
@@ -32,10 +66,17 @@ Future<bool?> showPayBorrowPopup(BuildContext context) async {
           height: 40,
           contentPaddingHorizontal: 12,
           inputType: TextInputType.number,
+          controller: monthlyPriceController,
+          suffixIcon: monthlyPriceController.text.isNotEmpty && monthlyPriceError != null
+              ? customTooltip(message: "Geçerli Bir Miktar Giriniz Lütfen", child: const Icon(Icons.warning_amber, color: CustomColors.DARK_GREEN))
+              : const Icon(Icons.currency_lira_rounded),
+          onChanged: (text) {
+            monthlyPriceError = (double.tryParse(text) ?? -1) < 1 ? "" : null;
+            setState(() {});
+          },
           hintText: "0",
           minWidthPrefix: 40,
           maxLength: 8,
-          suffixIcon: const Icon(Icons.currency_lira_rounded),
         ),
       ),
     ];
@@ -46,7 +87,7 @@ Future<bool?> showPayBorrowPopup(BuildContext context) async {
       const Padding(
         padding: EdgeInsets.fromLTRB(13, 10, 0, 0),
         child: Text(
-          "Toplam Borç",
+          "Kalan Borç",
           style: TextStyle(
             fontFamily: "JosefinSans",
             color: Color.fromARGB(255, 81, 81, 81),
@@ -68,8 +109,15 @@ Future<bool?> showPayBorrowPopup(BuildContext context) async {
           hintText: "0",
           minWidthPrefix: 40,
           inputType: TextInputType.number,
+          controller: totalBorrowController,
+          suffixIcon: totalBorrowController.text.isNotEmpty && totalBorrowError != null
+              ? customTooltip(message: "Geçerli Bir Miktar Giriniz Lütfen", child: const Icon(Icons.warning_amber, color: CustomColors.DARK_GREEN))
+              : const Icon(Icons.currency_lira_rounded),
+          onChanged: (text) {
+            totalBorrowError = (double.tryParse(text) ?? -1) < 1 ? "" : null;
+            setState(() {});
+          },
           maxLength: 8,
-          suffixIcon: const Icon(Icons.currency_lira_rounded),
         ),
       ),
     ];
@@ -102,8 +150,15 @@ Future<bool?> showPayBorrowPopup(BuildContext context) async {
           hintText: "0",
           minWidthPrefix: 40,
           inputType: TextInputType.number,
+          controller: payDayController,
+          suffixIcon: payDayController.text.isNotEmpty && payDayError != null
+              ? customTooltip(message: "Geçerli Bir Miktar Giriniz Lütfen", child: const Icon(Icons.warning_amber, color: CustomColors.DARK_GREEN))
+              : const Icon(Icons.date_range),
+          onChanged: (text) {
+            payDayError = (double.tryParse(text) ?? -1) < 1 || (double.tryParse(text) ?? -1) > 31 ? "" : null;
+            setState(() {});
+          },
           maxLength: 2,
-          suffixIcon: const Icon(Icons.date_range),
         ),
       ),
     ];
@@ -136,6 +191,14 @@ Future<bool?> showPayBorrowPopup(BuildContext context) async {
           hintText: "0",
           minWidthPrefix: 40,
           inputType: TextInputType.number,
+          controller: taksitNumberController,
+          suffixIcon: taksitNumberController.text.isNotEmpty && taksitNumberError != null
+              ? customTooltip(message: "Geçerli Bir Miktar Giriniz Lütfen", child: const Icon(Icons.warning_amber, color: CustomColors.DARK_GREEN))
+              : null,
+          onChanged: (text) {
+            taksitNumberError = (double.tryParse(text) ?? -1) < 1 ? "" : null;
+            setState(() {});
+          },
           maxLength: 3,
         ),
       ),
@@ -169,6 +232,14 @@ Future<bool?> showPayBorrowPopup(BuildContext context) async {
           hintText: "0",
           minWidthPrefix: 40,
           inputType: TextInputType.number,
+          controller: paidTaksitController,
+          suffixIcon: paidTaksitController.text.isNotEmpty && paidTaksitError != null
+              ? customTooltip(message: "Geçerli Bir Miktar Giriniz Lütfen", child: const Icon(Icons.warning_amber, color: CustomColors.DARK_GREEN))
+              : null,
+          onChanged: (text) {
+            paidTaksitError = (double.tryParse(text) ?? -1) < 1 ? "" : null;
+            setState(() {});
+          },
           maxLength: 3,
         ),
       ),
@@ -199,6 +270,14 @@ Future<bool?> showPayBorrowPopup(BuildContext context) async {
           contentPaddingHorizontal: 12,
           hintText: "Buraya Yazınız",
           minWidthPrefix: 40,
+          controller: descriptionController,
+          suffixIcon: descriptionController.text.isNotEmpty && descriptionError != null
+              ? customTooltip(message: "Geçerli Bir Başlık Giriniz Lütfen", child: const Icon(Icons.warning_amber, color: CustomColors.DARK_GREEN))
+              : null,
+          onChanged: (text) {
+            descriptionError = text.alphanumericValidation() ? null : "";
+            setState(() {});
+          },
           maxLength: 20,
         ),
       ),
@@ -232,20 +311,59 @@ Future<bool?> showPayBorrowPopup(BuildContext context) async {
                 ...getDescriptionArea(setState),
                 button(
                   context,
-                  loading: false,
+                  isEdited: borrow != null,
+                  enabled: ((double.tryParse(monthlyPriceController.text) ?? -1) > 1) &&
+                      ((double.tryParse(totalBorrowController.text) ?? -1) > 1) &&
+                      ((double.tryParse(payDayController.text) ?? -1) > 0) &&
+                      ((double.tryParse(payDayController.text) ?? -1) < 32) &&
+                      (double.tryParse(taksitNumberController.text) ?? -1) > 1 &&
+                      (double.tryParse(paidTaksitController.text) ?? -1) > 1 &&
+                      descriptionController.text.alphanumericValidation(),
                   onClear: () async {
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context, true);
+                    LoadingUtils.instance.loading(true);
+
+                    DTOBorrow request = DTOBorrow(
+                      id: borrow?.id,
+                    );
+
+                    bool response = await BorrowServices.deleteBorrow(request);
+
+                    if (response) {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context, true);
+                      }
                     }
+
+                    LoadingUtils.instance.loading(false);
                   },
                   onTap: () async {
                     LoadingUtils.instance.loading(true);
 
-                    LoadingUtils.instance.loading(false);
+                    DTOBorrow request = DTOBorrow(
+                      title: descriptionController.text,
+                      id: borrow?.id,
+                      last_paid_month: DateTime.now().month,
+                      monthly_price: double.tryParse(monthlyPriceController.text),
+                      paid_taksit: int.tryParse(paidTaksitController.text),
+                      pay_day: int.tryParse(payDayController.text),
+                      total_borrow: double.tryParse(totalBorrowController.text),
+                      total_taksit_count: int.tryParse(taksitNumberController.text),
+                    );
 
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context, true);
+                    bool response;
+                    if (borrow != null) {
+                      response = await BorrowServices.editBorrow(request);
+                    } else {
+                      response = await BorrowServices.createBorrow(request);
                     }
+
+                    if (response) {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context, true);
+                      }
+                    }
+
+                    LoadingUtils.instance.loading(false);
                   },
                 ),
               ],
@@ -281,10 +399,7 @@ Container appBar() {
   );
 }
 
-Widget button(BuildContext context,
-    {required Function() onTap,
-    required Function() onClear,
-    required bool loading}) {
+Widget button(BuildContext context, {required Function() onTap, required bool isEdited, required Function() onClear, required bool enabled}) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: Row(
@@ -294,34 +409,24 @@ Widget button(BuildContext context,
           child: customMaterialButton(
             context: context,
             onTap: onTap,
-            isLoading: loading,
+            enabled: enabled,
+            isLoading: false,
             text: "Tamamla",
             height: 35,
           ),
         ),
-        const SizedBox(width: 4),
-        Expanded(
-          flex: 2,
-          child: customMaterialButton(
-            context: context,
-            onTap: onTap,
-            isLoading: loading,
-            backgroundColor: CustomColors.DARK_ORANGE,
-            text: "Öde",
-            height: 35,
+        if (isEdited) const SizedBox(width: 4),
+        if (isEdited)
+          Expanded(
+            child: customMaterialButton(
+              context: context,
+              onTap: onClear,
+              isLoading: false,
+              backgroundColor: CustomColors.DARK_ORANGE,
+              child: const Icon(Icons.delete),
+              height: 35,
+            ),
           ),
-        ),
-        const SizedBox(width: 4),
-        Expanded(
-          child: customMaterialButton(
-            context: context,
-            onTap: onTap,
-            isLoading: loading,
-            backgroundColor: CustomColors.WHITE,
-            child: const Icon(Icons.delete),
-            height: 35,
-          ),
-        ),
       ],
     ),
   );

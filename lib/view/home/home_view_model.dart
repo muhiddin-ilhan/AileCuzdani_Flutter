@@ -40,6 +40,10 @@ abstract class HomeViewModelBase with Store {
   double minIconSize = 26;
   @observable
   double iconSize = 30;
+  @observable
+  double sizedBox = 8;
+  @observable
+  double maxSizedBox = 8;
 
   @action
   void scrollListener() {
@@ -56,6 +60,15 @@ abstract class HomeViewModelBase with Store {
         iconSize = minIconSize;
       } else {
         iconSize = maxIconSize - (offset / 4);
+      }
+    }
+
+    if (sizedBox >= 0) {
+      print(sizedBox);
+      if (maxSizedBox - (offset / 4) < 0) {
+        sizedBox = 0;
+      } else {
+        sizedBox = maxSizedBox - (offset / 4);
       }
     }
 
