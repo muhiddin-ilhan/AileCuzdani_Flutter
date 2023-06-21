@@ -4,7 +4,6 @@ import 'package:aile_cuzdani/core/components/custom_appBar.dart';
 import 'package:aile_cuzdani/core/components/popups/add_card_popup.dart';
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
 import 'package:aile_cuzdani/core/model/dto_bucket.dart';
-import 'package:aile_cuzdani/core/model/dto_user.dart';
 import 'package:aile_cuzdani/view/assets/bank_cards/bank_cards_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

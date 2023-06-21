@@ -1,11 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:aile_cuzdani/core/base/base_view.dart';
 import 'package:aile_cuzdani/core/components/currency_assets_list.dart';
 import 'package:aile_cuzdani/core/components/custom_appBar.dart';
 import 'package:aile_cuzdani/core/components/popups/add_currency_popup.dart';
 import 'package:aile_cuzdani/core/components/popups/remove_currency_popup.dart';
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
+import 'package:aile_cuzdani/core/extensions/currency_extension.dart';
 import 'package:aile_cuzdani/core/model/dto_bucket.dart';
-import 'package:aile_cuzdani/core/model/dto_user.dart';
+import 'package:aile_cuzdani/core/scrapping/currency_data_scrap.dart';
+import 'package:aile_cuzdani/core/utils/loading_utils.dart';
 import 'package:aile_cuzdani/view/assets/doviz/doviz_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -47,11 +51,14 @@ class _DovizViewState extends State<DovizView> {
                     onTap: (DTOBucket bucket) async {
                       bool? result = await showRemoveCurrencyPopup(context, bucket: bucket);
                       if (result == true) {
+                        LoadingUtils.instance.loading(true);
+                        await CurrencyDataScrap.updateAllCurrencyData(context);
                         viewModel.getCurrencies();
                       }
                     },
                     isScroll: false,
                   ),
+                  const SizedBox(height: 86),
                 ],
               );
             }),
@@ -80,9 +87,9 @@ class _DovizViewState extends State<DovizView> {
             ],
           ),
           margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
-          child: const Row(
+          child: Row(
             children: [
-              Expanded(
+              const Expanded(
                 child: Text(
                   "Toplam Değer",
                   style: TextStyle(
@@ -93,15 +100,17 @@ class _DovizViewState extends State<DovizView> {
                   ),
                 ),
               ),
-              Text(
-                "₺12300",
-                style: TextStyle(
-                  color: CustomColors.LIGHT_BLACK,
-                  fontFamily: "JosefinSans",
-                  fontSize: 13,
-                  height: 1,
-                ),
-              ),
+              Observer(builder: (_) {
+                return Text(
+                  "₺${viewModel.totalValue.currencyFormat()}",
+                  style: const TextStyle(
+                    color: CustomColors.LIGHT_BLACK,
+                    fontFamily: "JosefinSans",
+                    fontSize: 13,
+                    height: 1,
+                  ),
+                );
+              }),
             ],
           ),
         ),
@@ -114,6 +123,8 @@ class _DovizViewState extends State<DovizView> {
       onPressed: () async {
         bool? result = await showAddCurrencyPopup(context);
         if (result == true) {
+          LoadingUtils.instance.loading(true);
+          await CurrencyDataScrap.updateAllCurrencyData(context);
           viewModel.getCurrencies();
         }
       },
@@ -123,15 +134,26 @@ class _DovizViewState extends State<DovizView> {
   }
 
   AppBar appBar(BuildContext context) {
-    return customAppBar(
-      context,
-      title: "Döviz Varlıklarım",
-      leading: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: const Icon(Icons.arrow_back_ios_new),
-      ),
-    );
+    return customAppBar(context,
+        title: "Döviz Varlıklarım",
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              LoadingUtils.instance.loading(true);
+              bool? result = await CurrencyDataScrap.updateAllCurrencyData(context);
+              if (result == true) {
+                await viewModel.getCurrencies();
+              }
+              LoadingUtils.instance.loading(false);
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ]);
   }
 }

@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
-
 import 'package:aile_cuzdani/core/extensions/response_extension.dart';
 import 'package:aile_cuzdani/core/model/dto_borrow.dart';
 import 'package:flutter/material.dart';

@@ -9,6 +9,8 @@ class AltinViewModel = AltinViewModelBase with _$AltinViewModel;
 abstract class AltinViewModelBase with Store {
   @observable
   List<DTOBucket> golds = [];
+  @observable
+  double goldTotalValue = 0;
 
   @observable
   bool isLoading = false;
@@ -16,12 +18,17 @@ abstract class AltinViewModelBase with Store {
   @action
   Future getGolds() async {
     golds = [];
+    goldTotalValue = 0;
     setLoading(true);
 
     List<DTOBucket>? response = await BucketServices.getAllFamilyBucket(type: 2);
 
     if (response != null) {
       golds = response;
+    }
+
+    for (DTOBucket item in golds) {
+      goldTotalValue += item.money ?? 0;
     }
 
     setLoading(false);

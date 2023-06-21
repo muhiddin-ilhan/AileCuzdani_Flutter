@@ -6,7 +6,6 @@ import 'package:aile_cuzdani/core/components/custom_textbox.dart';
 import 'package:aile_cuzdani/core/components/custom_tooltip.dart';
 import 'package:aile_cuzdani/core/components/dropdowns/bucket_dropdown.dart';
 import 'package:aile_cuzdani/core/components/dropdowns/crypto_platform_dropdown.dart';
-import 'package:aile_cuzdani/core/components/dropdowns/platform_dropdown.dart';
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
 import 'package:aile_cuzdani/core/extensions/validation_extension.dart';
 import 'package:aile_cuzdani/core/model/dto_bucket.dart';

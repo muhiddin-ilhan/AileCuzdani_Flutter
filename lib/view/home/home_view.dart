@@ -1,9 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
-
 import 'package:aile_cuzdani/core/base/base_view.dart';
 import 'package:aile_cuzdani/core/components/popups/add_expense_popup.dart';
+import 'package:aile_cuzdani/core/components/popups/bucket_reload_popup.dart';
+import 'package:aile_cuzdani/core/components/popups/main_pay_borrow_popup.dart';
 import 'package:aile_cuzdani/core/components/popups/message_popup.dart';
 import 'package:aile_cuzdani/core/components/transactions_list.dart';
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
@@ -324,7 +324,7 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            "₺${viewModel.totalValues != null ? viewModel.totalValues!.myAssetsCurrency!.currencyFormat() : 0.0.currencyFormat()}",
+            "₺${viewModel.totalValues != null ? viewModel.totalValues!.myAssetsBorsa!.currencyFormat() : 0.0.currencyFormat()}",
             style: TextStyle(
               color: const Color.fromARGB(255, 118, 231, 182),
               fontWeight: FontWeight.w600,
@@ -337,32 +337,32 @@ class HomePage extends StatelessWidget {
       Observer(builder: (_) {
         return SizedBox(height: viewModel.sizedBox);
       }),
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            "Coin",
-            style: TextStyle(
-              color: CustomColors.WHITE.withOpacity(0.6),
-              fontFamily: "JosefinSans",
-              fontSize: viewModel.fontSizeTitle,
-            ),
-          ),
-          const SizedBox(width: 8),
-          Text(
-            "₺${viewModel.totalValues != null ? viewModel.totalValues!.myAssetsCoin!.currencyFormat() : 0.0.currencyFormat()}",
-            style: TextStyle(
-              color: const Color.fromARGB(255, 118, 231, 182),
-              fontWeight: FontWeight.w600,
-              fontSize: viewModel.fontSizeTitle,
-              height: 1,
-            ),
-          ),
-        ],
-      ),
-      Observer(builder: (_) {
-        return SizedBox(height: viewModel.sizedBox);
-      }),
+      // Row(
+      //   crossAxisAlignment: CrossAxisAlignment.center,
+      //   children: [
+      //     Text(
+      //       "Coin",
+      //       style: TextStyle(
+      //         color: CustomColors.WHITE.withOpacity(0.6),
+      //         fontFamily: "JosefinSans",
+      //         fontSize: viewModel.fontSizeTitle,
+      //       ),
+      //     ),
+      //     const SizedBox(width: 8),
+      //     Text(
+      //       "₺${viewModel.totalValues != null ? viewModel.totalValues!.myAssetsCoin!.currencyFormat() : 0.0.currencyFormat()}",
+      //       style: TextStyle(
+      //         color: const Color.fromARGB(255, 118, 231, 182),
+      //         fontWeight: FontWeight.w600,
+      //         fontSize: viewModel.fontSizeTitle,
+      //         height: 1,
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      // Observer(builder: (_) {
+      //   return SizedBox(height: viewModel.sizedBox);
+      // }),
     ];
   }
 
@@ -510,13 +510,24 @@ class HomePage extends StatelessWidget {
           title: "Ödeme",
           icon: Icons.payments_outlined,
           iconColor: const Color.fromARGB(255, 150, 76, 121),
-          onTap: () {},
+          onTap: () async {
+            bool? result = await showMainPayBorrowPopup(context);
+            if (result == true) {
+              viewModel.getTransactions(context);
+            }
+          },
         ),
         menuCardItem(
-          title: "",
-          icon: Icons.check_box_outline_blank,
-          iconColor: CustomColors.OFF_WHITE,
-          onTap: () {},
+          title: "Yenile",
+          icon: Icons.sync,
+          iconColor: const Color.fromARGB(255, 51, 117, 131),
+          onTap: () async {
+            bool? result = await showBucketReloadPopup(context);
+            if (result == true) {
+              viewModel.setLoading(true);
+              viewModel.getTransactions(context);
+            }
+          },
         ),
       ],
     );

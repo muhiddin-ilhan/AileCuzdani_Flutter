@@ -28,6 +28,7 @@ Future<bool?> showFilterTransactionPopup(BuildContext context, TransactionsViewM
 
   Provider.of<UserProvider>(context, listen: false).getUsers(context);
   Provider.of<BucketProvider>(context, listen: false).getBuckets(context);
+  Provider.of<BucketProvider>(context, listen: false).getCreditCards(context);
 
   List<Widget> getDateFilterArea(Function(void Function()) setState) {
     return [
@@ -179,7 +180,7 @@ Future<bool?> showFilterTransactionPopup(BuildContext context, TransactionsViewM
               onSelected: (DTOBucket? bucket) {
                 selectedBucket = bucket;
               },
-              items: providerBucket.buckets,
+              items: providerBucket.buckets + providerBucket.creditCards,
               height: 40,
               value: selectedBucket ?? viewModel.filterBucket,
               loading: providerBucket.isLoading || viewModel.isLoading,

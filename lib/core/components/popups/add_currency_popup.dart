@@ -7,7 +7,6 @@ import 'package:aile_cuzdani/core/components/custom_tooltip.dart';
 import 'package:aile_cuzdani/core/components/dropdowns/bucket_dropdown.dart';
 import 'package:aile_cuzdani/core/components/dropdowns/currency_dropdown.dart';
 import 'package:aile_cuzdani/core/components/dropdowns/currency_platform_dropdown.dart';
-import 'package:aile_cuzdani/core/components/dropdowns/platform_dropdown.dart';
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
 import 'package:aile_cuzdani/core/model/dto_bucket.dart';
 import 'package:aile_cuzdani/core/providers/bucket_provider.dart';
@@ -161,6 +160,7 @@ Future<bool?> showAddCurrencyPopup(BuildContext context) async {
         child: Observer(builder: (_) {
           return currencyPlatformDropdown(
             context,
+            isDolar: selectedCurrencyType == "Dolar",
             onSelected: (String? platform) {
               selectedPlatform = platform;
               setState(() {});

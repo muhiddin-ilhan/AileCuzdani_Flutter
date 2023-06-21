@@ -10,7 +10,6 @@ import 'package:aile_cuzdani/view/assets/altin/altin_view.dart';
 import 'package:aile_cuzdani/view/assets/bank_cards/bank_cards_view.dart';
 import 'package:aile_cuzdani/view/assets/borsa/borsa_view.dart';
 import 'package:aile_cuzdani/view/assets/credit_cards/credit_cards_view.dart';
-import 'package:aile_cuzdani/view/assets/cripto/crypto_view.dart';
 import 'package:aile_cuzdani/view/assets/doviz/doviz_view.dart';
 import 'package:aile_cuzdani/view/assets/menu/menu_view_model.dart';
 import 'package:aile_cuzdani/view/bottom_navigation_bar/bottom_navigation_bar.dart';
@@ -129,22 +128,22 @@ class _MenuViewState extends State<MenuView> {
                       NavigateUtils.push(context, page: const BorsaView());
                     },
                   ),
-                  Divider(
-                    indent: 58,
-                    endIndent: 42,
-                    thickness: 1,
-                    color: CustomColors.LIGHT_BLACK.withOpacity(0.1),
-                  ),
-                  settingsCardItem(
-                    icon: const Icon(
-                      Icons.currency_bitcoin,
-                      color: Colors.brown,
-                    ),
-                    text: "Kripto Para",
-                    onTap: () {
-                      NavigateUtils.push(context, page: const CryptoView());
-                    },
-                  ),
+                  // Divider(
+                  //   indent: 58,
+                  //   endIndent: 42,
+                  //   thickness: 1,
+                  //   color: CustomColors.LIGHT_BLACK.withOpacity(0.1),
+                  // ),
+                  // settingsCardItem(
+                  //   icon: const Icon(
+                  //     Icons.currency_bitcoin,
+                  //     color: Colors.brown,
+                  //   ),
+                  //   text: "Kripto Para",
+                  //   onTap: () {
+                  //     NavigateUtils.push(context, page: const CryptoView());
+                  //   },
+                  // ),
                 ],
               ),
             ),

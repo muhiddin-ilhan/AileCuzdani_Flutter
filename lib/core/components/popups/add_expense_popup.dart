@@ -45,6 +45,9 @@ Future<bool?> showAddIncomePopup(BuildContext context, {ExpenseState state = Exp
   bool isReady = false;
 
   Provider.of<BucketProvider>(context, listen: false).getBuckets(context);
+  if (state == ExpenseState.expense) {
+    Provider.of<BucketProvider>(context, listen: false).getCreditCards(context);
+  }
 
   if (transaction != null) {
     controller.text = (transaction.price ?? 0.0).toString().split(".")[0];
@@ -118,7 +121,7 @@ Future<bool?> showAddIncomePopup(BuildContext context, {ExpenseState state = Exp
                   child: Consumer<BucketProvider>(builder: (_, provider, __) {
                     selectedBucket ??= provider.buckets.isNotEmpty ? provider.buckets.first : null;
                     return bucketDropdown(
-                      items: provider.buckets,
+                      items: provider.buckets + (state == ExpenseState.expense ? provider.creditCards : []),
                       value: selectedBucket,
                       loading: loading || provider.isLoading,
                       onSelected: (DTOBucket? val) {

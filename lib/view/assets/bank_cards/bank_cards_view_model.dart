@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aile_cuzdani/core/api/bucket/bucket_services.dart';
 import 'package:aile_cuzdani/core/model/dto_bucket.dart';
 import 'package:aile_cuzdani/core/utils/loading_utils.dart';

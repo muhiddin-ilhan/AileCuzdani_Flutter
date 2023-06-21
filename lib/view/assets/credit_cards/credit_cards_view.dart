@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aile_cuzdani/core/base/base_view.dart';
 import 'package:aile_cuzdani/core/components/credit_card_list.dart';
 import 'package:aile_cuzdani/core/components/custom_appBar.dart';
@@ -8,7 +6,6 @@ import 'package:aile_cuzdani/core/components/popups/add_credit_card_popup.dart';
 import 'package:aile_cuzdani/core/components/popups/credit_card_pay_borrow_popup.dart';
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
 import 'package:aile_cuzdani/core/model/dto_bucket.dart';
-import 'package:aile_cuzdani/core/model/dto_user.dart';
 import 'package:aile_cuzdani/view/assets/credit_cards/credit_cards_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

@@ -12,8 +12,6 @@ import 'package:aile_cuzdani/core/utils/loading_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../dropdowns/platform_dropdown.dart';
-
 Future<bool?> showRemoveBorsaPopup(BuildContext context, {DTOBucket? bucket}) async {
   bool isShowMyAssets = true;
   DTOBucket? selectedBankAccount;
@@ -28,10 +26,12 @@ Future<bool?> showRemoveBorsaPopup(BuildContext context, {DTOBucket? bucket}) as
 
   if (bucket != null) {
     borsaCountController.text = (bucket.count ?? 0).toString();
+    borsaValueController.text = (bucket.money ?? 0).toStringAsFixed(2);
 
     isShowMyAssets = bucket.show_my_assets == 1;
 
     borsaCountError = (double.tryParse(borsaCountController.text) ?? -1) < 0 ? "" : null;
+    borsaValueError = (double.tryParse(borsaValueController.text) ?? -1) < 0 ? "" : null;
   }
 
   List<Widget> getBorsaCountArea(Function(void Function()) setState) {

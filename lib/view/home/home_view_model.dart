@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
@@ -64,7 +62,6 @@ abstract class HomeViewModelBase with Store {
     }
 
     if (sizedBox >= 0) {
-      print(sizedBox);
       if (maxSizedBox - (offset / 4) < 0) {
         sizedBox = 0;
       } else {
@@ -100,8 +97,6 @@ abstract class HomeViewModelBase with Store {
     setLoading(true);
 
     DTOResponse? response = await TransactionService.getHomeTransaction();
-
-    inspect(response);
 
     if (response != null) {
       transactions = response.data;

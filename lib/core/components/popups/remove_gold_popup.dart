@@ -26,10 +26,12 @@ Future<bool?> showRemoveGoldPopup(BuildContext context, {DTOBucket? bucket}) asy
 
   if (bucket != null) {
     goldCountController.text = (bucket.count ?? 0).toString();
+    goldValueController.text = (bucket.money ?? 0).toStringAsFixed(2);
 
     isShowMyAssets = bucket.show_my_assets == 1;
 
     goldCountError = (double.tryParse(goldCountController.text) ?? -1) < 0 ? "" : null;
+    goldValueError = (double.tryParse(goldValueController.text) ?? -1) < 0 ? "" : null;
   }
 
   List<Widget> getGoldCountArea(Function(void Function()) setState) {

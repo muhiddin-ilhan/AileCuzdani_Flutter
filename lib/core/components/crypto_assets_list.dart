@@ -250,7 +250,7 @@ Widget cryptoAssetsList(List<DTOBucket> bucket, {Function(DTOBucket)? onTap, boo
                         ),
                       ),
                       Text(
-                        "₺0",
+                        (bucket[index].money ?? 0).toString(),
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: CustomColors.LIGHT_BLACK.withOpacity(0.75),

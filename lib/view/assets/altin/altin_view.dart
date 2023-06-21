@@ -1,11 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:aile_cuzdani/core/base/base_view.dart';
 import 'package:aile_cuzdani/core/components/custom_appBar.dart';
 import 'package:aile_cuzdani/core/components/gold_assets_list.dart';
 import 'package:aile_cuzdani/core/components/popups/add_gold_popup.dart';
 import 'package:aile_cuzdani/core/components/popups/remove_gold_popup.dart';
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
+import 'package:aile_cuzdani/core/extensions/currency_extension.dart';
 import 'package:aile_cuzdani/core/model/dto_bucket.dart';
-import 'package:aile_cuzdani/core/model/dto_user.dart';
+import 'package:aile_cuzdani/core/scrapping/gold_data_scrap.dart';
+import 'package:aile_cuzdani/core/utils/loading_utils.dart';
 import 'package:aile_cuzdani/view/assets/altin/altin_view_model.dart';
 import 'package:aile_cuzdani/view/assets/credit_cards/credit_cards_view_model.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +52,8 @@ class _AltinViewState extends State<AltinView> {
                     onTap: (DTOBucket bucket) async {
                       bool? result = await showRemoveGoldPopup(context, bucket: bucket);
                       if (result == true) {
+                        LoadingUtils.instance.loading(true);
+                        await GoldDataScrap.updateAllGoldData(context);
                         viewModel.getGolds();
                       }
                     },
@@ -82,9 +88,9 @@ class _AltinViewState extends State<AltinView> {
             ],
           ),
           margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
-          child: const Row(
+          child: Row(
             children: [
-              Expanded(
+              const Expanded(
                 child: Text(
                   "Toplam Değer",
                   style: TextStyle(
@@ -95,15 +101,17 @@ class _AltinViewState extends State<AltinView> {
                   ),
                 ),
               ),
-              Text(
-                "₺12300",
-                style: TextStyle(
-                  color: CustomColors.LIGHT_BLACK,
-                  fontFamily: "JosefinSans",
-                  fontSize: 13,
-                  height: 1,
-                ),
-              ),
+              Observer(builder: (_) {
+                return Text(
+                  "₺${viewModel.goldTotalValue.currencyFormat()}",
+                  style: const TextStyle(
+                    color: CustomColors.LIGHT_BLACK,
+                    fontFamily: "JosefinSans",
+                    fontSize: 13,
+                    height: 1,
+                  ),
+                );
+              }),
             ],
           ),
         ),
@@ -116,6 +124,8 @@ class _AltinViewState extends State<AltinView> {
       onPressed: () async {
         bool? result = await showAddGoldPopup(context);
         if (result == true) {
+          LoadingUtils.instance.loading(true);
+          await GoldDataScrap.updateAllGoldData(context);
           viewModel.getGolds();
         }
       },
@@ -125,15 +135,26 @@ class _AltinViewState extends State<AltinView> {
   }
 
   AppBar appBar(BuildContext context) {
-    return customAppBar(
-      context,
-      title: "Altın Varlıklarım",
-      leading: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: const Icon(Icons.arrow_back_ios_new),
-      ),
-    );
+    return customAppBar(context,
+        title: "Altın Varlıklarım",
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              LoadingUtils.instance.loading(true);
+              bool result = await GoldDataScrap.updateAllGoldData(context);
+              if (result == true) {
+                await viewModel.getGolds();
+              }
+              LoadingUtils.instance.loading(false);
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ]);
   }
 }

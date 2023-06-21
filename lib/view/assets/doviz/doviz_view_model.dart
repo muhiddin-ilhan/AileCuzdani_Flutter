@@ -9,6 +9,8 @@ class DovizViewModel = DovizViewModelBase with _$DovizViewModel;
 abstract class DovizViewModelBase with Store {
   @observable
   List<DTOBucket> currencies = [];
+  @observable
+  double totalValue = 0;
 
   @observable
   bool isLoading = false;
@@ -16,12 +18,17 @@ abstract class DovizViewModelBase with Store {
   @action
   Future getCurrencies() async {
     currencies = [];
+    totalValue = 0;
     setLoading(true);
 
     List<DTOBucket>? response = await BucketServices.getAllFamilyBucket(type: 3);
 
     if (response != null) {
       currencies = response;
+
+      for (DTOBucket item in response) {
+        totalValue += item.money ?? 0;
+      }
     }
 
     setLoading(false);

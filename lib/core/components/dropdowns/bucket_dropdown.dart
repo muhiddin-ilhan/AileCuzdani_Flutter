@@ -43,9 +43,9 @@ Widget bucketDropdown(
                     borderRadius: BorderRadius.circular(10),
                     color: CustomColors.DARK_WHITE,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.wallet,
-                    color: CustomColors.DARK_GREEN,
+                    color: item.type == 0 ? CustomColors.DARK_GREEN : const Color.fromARGB(255, 96, 40, 112),
                     size: 24,
                   ),
                 ),
@@ -83,7 +83,7 @@ Widget bucketDropdown(
                 ),
                 const SizedBox(width: 15),
                 Text(
-                  "₺${item.money!.currencyFormat()}",
+                  item.type == 1 ? "-₺${item.credit_card_borrow!.currencyFormat()}" : "₺${item.money!.currencyFormat()}",
                   style: const TextStyle(
                     color: CustomColors.GREEN,
                     fontWeight: FontWeight.w700,

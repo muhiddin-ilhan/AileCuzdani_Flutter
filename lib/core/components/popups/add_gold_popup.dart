@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
-
 import 'package:aile_cuzdani/core/api/bucket/bucket_services.dart';
 import 'package:aile_cuzdani/core/components/custom_material_button.dart';
 import 'package:aile_cuzdani/core/components/custom_textbox.dart';
@@ -162,6 +160,7 @@ Future<bool?> showAddGoldPopup(BuildContext context, {DTOBucket? bucket}) async 
         child: Observer(builder: (_) {
           return goldPlatformDropdown(
             context,
+            isGram: selectedGoldType == "Gram Altın",
             onSelected: (String? platform) {
               selectedPlatform = platform;
               setState(() {});
@@ -255,8 +254,6 @@ Future<bool?> showAddGoldPopup(BuildContext context, {DTOBucket? bucket}) async 
                       show_my_assets: 1,
                       type: 2,
                     );
-
-                    inspect(request);
 
                     bool response = await BucketServices.createBucket(request);
 

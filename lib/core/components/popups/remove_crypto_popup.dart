@@ -5,7 +5,6 @@ import 'package:aile_cuzdani/core/components/custom_material_button.dart';
 import 'package:aile_cuzdani/core/components/custom_textbox.dart';
 import 'package:aile_cuzdani/core/components/custom_tooltip.dart';
 import 'package:aile_cuzdani/core/components/dropdowns/bucket_dropdown.dart';
-import 'package:aile_cuzdani/core/components/dropdowns/platform_dropdown.dart';
 import 'package:aile_cuzdani/core/constants/app_constants.dart';
 import 'package:aile_cuzdani/core/model/dto_bucket.dart';
 import 'package:aile_cuzdani/core/providers/bucket_provider.dart';

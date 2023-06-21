@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../custom_tooltip.dart';
-import '../dropdowns/platform_dropdown.dart';
 
 Future<bool?> showRemoveCurrencyPopup(BuildContext context, {DTOBucket? bucket}) async {
   bool isShowMyAssets = true;
@@ -28,10 +27,12 @@ Future<bool?> showRemoveCurrencyPopup(BuildContext context, {DTOBucket? bucket})
 
   if (bucket != null) {
     currencyCountController.text = (bucket.count ?? 0).toString();
+    currencyValueController.text = (bucket.money ?? 0).toStringAsFixed(2);
 
     isShowMyAssets = bucket.show_my_assets == 1;
 
     currencyCountError = (double.tryParse(currencyCountController.text) ?? -1) < 0 ? "" : null;
+    currencyValueError = (double.tryParse(currencyValueController.text) ?? -1) < 0 ? "" : null;
   }
 
   List<Widget> getCurrencyCountArea(Function(void Function()) setState) {

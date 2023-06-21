@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
-
 import 'package:aile_cuzdani/core/extensions/response_extension.dart';
 import 'package:aile_cuzdani/core/model/dto_bucket.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +53,21 @@ class BucketServices {
     if (!response.isSuccess(context)) return false;
 
     customSnackBar(context, message: response!.message ?? "Kart Başarıyla Güncellendi");
+    return true;
+  }
+
+  static Future<bool> bulkEditBucket(List<DTOBucket> request) async {
+    DTOResponse? response = await Api.instance!.post(
+      endPoint: "bucket/bulk_edit_bucket",
+      responseModel: DTOResponse(),
+      body: request,
+    );
+
+    BuildContext context = LoadingUtils.instance.mainBuildContext!;
+
+    if (!response.isSuccess(context)) return false;
+
+    //customSnackBar(context, message: response!.message ?? "Başarıyla Güncellendi");
     return true;
   }
 

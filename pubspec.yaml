@@ -32,6 +32,8 @@ dependencies:
   package_info_plus: ^4.0.2
   showcaseview: ^2.0.0+1
   rate_my_app: ^1.1.3
+  html: ^0.15.4
+  http: ^1.0.0
 
 dev_dependencies:
   flutter_test:

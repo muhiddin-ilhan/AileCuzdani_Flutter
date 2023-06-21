@@ -3,27 +3,29 @@ import 'package:flutter/material.dart';
 import '../../constants/app_constants.dart';
 import 'custom_dropdown.dart';
 
-Widget goldPlatformDropdown(BuildContext context, {required Function(String?) onSelected, required String? value}) {
+Widget goldPlatformDropdown(BuildContext context, {required Function(String?) onSelected, required String? value, required bool isGram}) {
   return customDropdown<String>(
-    items: [
-      "Serbest Piyasa",
-      "Ziraat Bankası",
-      "Yapı Kredi",
-      "Vakıfbank",
-      "TEB",
-      "Şekerbank",
-      "Kuveyt Türk",
-      "İş Bankası",
-      "ING Bank",
-      "HSBC",
-      "Halkbank",
-      "Garanti Bankası",
-      "Finansbank",
-      "Denizbank",
-      "Albaraka",
-      "Akbank",
-      "Enpara",
-    ],
+    items: isGram
+        ? [
+            "Serbest Piyasa",
+            "Ziraat Bankası",
+            "Yapı Kredi",
+            "Vakıfbank",
+            "TEB",
+            "Şekerbank",
+            "Kuveyt Türk",
+            "İş Bankası",
+            "ING Bank",
+            "HSBC",
+            "Halkbank",
+            "Garanti Bankası",
+            "Finansbank",
+            "Denizbank",
+            "Albaraka",
+            "Akbank",
+            "Enpara",
+          ]
+        : ["Serbest Piyasa"],
     height: 40,
     hintText: "Platform Seçiniz",
     prefixIcon: const Icon(Icons.account_balance),

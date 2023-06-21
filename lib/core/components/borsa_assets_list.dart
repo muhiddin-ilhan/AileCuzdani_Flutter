@@ -1,3 +1,4 @@
+import 'package:aile_cuzdani/core/extensions/currency_extension.dart';
 import 'package:aile_cuzdani/core/extensions/string_extension.dart';
 import 'package:aile_cuzdani/core/model/dto_bucket.dart';
 import 'package:flutter/material.dart';
@@ -250,7 +251,7 @@ Widget borsaAssetsList(List<DTOBucket> bucket, {Function(DTOBucket)? onTap, bool
                         ),
                       ),
                       Text(
-                        "₺0",
+                        "₺${(bucket[index].money ?? 0).currencyFormat()}",
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: CustomColors.LIGHT_BLACK.withOpacity(0.75),

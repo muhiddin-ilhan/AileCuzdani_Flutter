@@ -8,9 +8,6 @@ Widget currencyDropdown(BuildContext context, {required Function(String?) onSele
     items: [
       "Dolar",
       "Euro",
-      "Yen",
-      "Riyal",
-      "Sterlin",
     ],
     height: 40,
     hintText: "Döviz Türü Seçiniz",
