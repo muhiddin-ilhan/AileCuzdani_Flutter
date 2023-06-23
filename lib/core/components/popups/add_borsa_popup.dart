@@ -27,6 +27,7 @@ Future<bool?> showAddBorsaPopup(BuildContext context) async {
   String? companyCodeError = "";
 
   Provider.of<BucketProvider>(context, listen: false).getBuckets(context);
+  Provider.of<BucketProvider>(context, listen: false).getCreditCards(context);
 
   List<Widget> getCompanyCodeArea(Function(void Function()) setState) {
     return [
@@ -172,7 +173,7 @@ Future<bool?> showAddBorsaPopup(BuildContext context) async {
               selectedBankAccount = bucket;
               setState(() {});
             },
-            items: providerBucket.buckets,
+            items: providerBucket.buckets + providerBucket.creditCards,
             height: 40,
             value: selectedBankAccount,
             loading: providerBucket.isLoading,
@@ -252,7 +253,7 @@ Future<bool?> showAddBorsaPopup(BuildContext context) async {
                     LoadingUtils.instance.loading(true);
 
                     DTOBucket request = DTOBucket(
-                      title: companyCodeController.text,
+                      title: companyCodeController.text.toUpperCase(),
                       count: double.tryParse(borsaCountController.text) ?? 0,
                       money: (double.tryParse(borsaValueController.text) ?? 0) * -1,
                       platform: selectedPlatform,

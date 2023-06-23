@@ -20,7 +20,7 @@ abstract class HomeViewModelBase with Store {
   @observable
   ScrollController scrollController = ScrollController();
   @observable
-  bool isOtherMenuVisible = true;
+  bool isOtherMenuVisible = false;
   @observable
   int tabIndex = 0;
 

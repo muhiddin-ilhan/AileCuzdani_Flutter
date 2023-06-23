@@ -1,3 +1,4 @@
+import 'package:aile_cuzdani/core/extensions/currency_extension.dart';
 import 'package:aile_cuzdani/core/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -42,9 +43,9 @@ Widget creditCardDropdown(
                     borderRadius: BorderRadius.circular(10),
                     color: CustomColors.DARK_WHITE,
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.wallet,
-                    color: Colors.purple.shade400,
+                    color: Color.fromARGB(255, 96, 40, 112),
                     size: 24,
                   ),
                 ),
@@ -78,6 +79,15 @@ Widget creditCardDropdown(
                         ),
                       ),
                     ],
+                  ),
+                ),
+                const SizedBox(width: 15),
+                Text(
+                  "-₺${item.credit_card_borrow!.currencyFormat()}",
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 96, 40, 112),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12,
                   ),
                 ),
               ],

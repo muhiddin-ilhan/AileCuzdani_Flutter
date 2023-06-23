@@ -289,6 +289,33 @@ Widget borsaAssetsList(List<DTOBucket> bucket, {Function(DTOBucket)? onTap, bool
                       ),
                     ],
                   ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          "Özel Varlıklarım",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Color.fromARGB(201, 59, 59, 59),
+                            fontFamily: "JosefinSans",
+                            fontSize: 12,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        bucket[index].show_my_assets == 1 ? "Dahil" : " Dahil Değil",
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: CustomColors.GREY,
+                          fontFamily: "JosefinSans",
+                          fontSize: 13,
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

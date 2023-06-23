@@ -84,8 +84,8 @@ Widget bucketDropdown(
                 const SizedBox(width: 15),
                 Text(
                   item.type == 1 ? "-₺${item.credit_card_borrow!.currencyFormat()}" : "₺${item.money!.currencyFormat()}",
-                  style: const TextStyle(
-                    color: CustomColors.GREEN,
+                  style: TextStyle(
+                    color: item.type == 0 ? CustomColors.GREEN : const Color.fromARGB(255, 96, 40, 112),
                     fontWeight: FontWeight.w700,
                     fontSize: 13,
                   ),

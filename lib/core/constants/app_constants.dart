@@ -2,20 +2,11 @@
 import 'package:flutter/material.dart';
 
 class AppConstant {
-  static const BASE_API_URL = "http://192.168.1.112:3000/api/";
-  //static const BASE_API_URL = "http://209.97.187.37/api/";
+  //static const BASE_API_URL = "http://192.168.1.112:3000/api/";
+  static const BASE_API_URL = "http://192.168.1.58:3001/api/";
+  //static const BASE_API_URL = "http://209.97.187.37:3001/api/";
 
-  static const List<String> categories = [
-    "Market",
-    "Yol",
-    "İş",
-    "Sağlık",
-    "Kişisel",
-    "Fatura",
-    "Borç",
-    "Yemek",
-    "Diğer"
-  ];
+  static const List<String> categories = ["Market", "Yol", "İş", "Sağlık", "Kişisel", "Fatura", "Borç", "Yemek", "Diğer"];
   static const List<String> categories2 = ["Maaş", "Alacak", "İş", "Diğer"];
 }
 

@@ -65,7 +65,7 @@ Future<bool?> showRemoveGoldPopup(BuildContext context, {DTOBucket? bucket}) asy
               : null,
           onChanged: (text) {
             double val = double.tryParse(text) ?? -1;
-            goldCountError = val < 0 ? "" : null;
+            goldCountError = val < 0 || val > bucket!.count! ? "" : null;
             setState(() {});
           },
           hintText: "0",
@@ -219,7 +219,8 @@ Future<bool?> showRemoveGoldPopup(BuildContext context, {DTOBucket? bucket}) asy
                   context,
                   enabled: selectedBankAccount != null &&
                       (double.tryParse(goldCountController.text) ?? -1) > 0 &&
-                      (double.tryParse(goldValueController.text) ?? -1) > 0,
+                      (double.tryParse(goldValueController.text) ?? -1) > 0 &&
+                      (double.tryParse(goldCountController.text) ?? -1) <= bucket!.count!,
                   onClear: () async {
                     if (Navigator.canPop(context)) {
                       Navigator.pop(context, true);

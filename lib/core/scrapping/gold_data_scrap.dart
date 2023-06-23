@@ -14,38 +14,44 @@ class GoldDataScrap {
     List<DTOBucket>? response = await BucketServices.getAllFamilyBucket(type: 2);
 
     if (response == null) {
-      customSnackBar(context, message: "Bir Hata Oluştu");
+      return false;
+    }
+    if (response.isEmpty) {
       return false;
     }
 
     List<DTOBucket>? gramAltins = response.where((element) => element.gold_type == "Gram Altın").toList();
-    bool resultGram = await _updateGramAltin(gramAltins);
+    if (gramAltins.isNotEmpty) {
+      bool resultGram = await _updateGramAltin(gramAltins);
 
-    if (!resultGram) {
-      customSnackBar(context, message: "Gram Altınların Fiyatı Güncellenemedi");
-      return false;
-    }
+      if (!resultGram) {
+        customSnackBar(context, message: "Gram Altınların Fiyatı Güncellenemedi - E16");
+        return false;
+      }
 
-    bool updateGramResult = await BucketServices.bulkEditBucket(gramAltins);
+      bool updateGramResult = await BucketServices.bulkEditBucket(gramAltins);
 
-    if (!updateGramResult) {
-      customSnackBar(context, message: "Gram Altınların Fiyatı Güncellenemedi");
-      return false;
+      if (!updateGramResult) {
+        customSnackBar(context, message: "Gram Altınların Fiyatı Güncellenemedi - E17");
+        return false;
+      }
     }
 
     List<DTOBucket>? altins = response.where((element) => element.gold_type != "Gram Altın").toList();
-    bool resultAltin = await _updateOtherAltin(altins);
+    if (altins.isNotEmpty) {
+      bool resultAltin = await _updateOtherAltin(altins);
 
-    if (!resultAltin) {
-      customSnackBar(context, message: "Altınların Fiyatı Güncellenemedi");
-      return false;
-    }
+      if (!resultAltin) {
+        customSnackBar(context, message: "Altınların Fiyatı Güncellenemedi");
+        return false;
+      }
 
-    bool updateOtherAltinResult = await BucketServices.bulkEditBucket(altins);
+      bool updateOtherAltinResult = await BucketServices.bulkEditBucket(altins);
 
-    if (!updateOtherAltinResult) {
-      customSnackBar(context, message: "Altınların Fiyatı Güncellenemedi");
-      return false;
+      if (!updateOtherAltinResult) {
+        customSnackBar(context, message: "Altınların Fiyatı Güncellenemedi");
+        return false;
+      }
     }
 
     return true;

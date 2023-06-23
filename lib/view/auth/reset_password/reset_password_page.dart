@@ -89,7 +89,7 @@ class ResetPasswordPage extends StatelessWidget {
             labelText: 'Şifre',
             suffixIcon: viewModel.passwordController.text.isNotEmpty && viewModel.passwordError != null
                 ? customTooltip(
-                    message: "Şifreniz en az 8, en fazla 16 karakter olmalı ve en az 1 büyük harf, 1 küçük harf ve 1 adet rakam içermelidir",
+                    message: "Şifreniz en az 8 karakter olmalıdır",
                     child: const IconButton(
                       icon: Icon(Icons.warning_amber, color: CustomColors.DARK_GREEN),
                       onPressed: null,

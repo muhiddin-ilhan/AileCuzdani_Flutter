@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:aile_cuzdani/core/components/custom_snack_bar.dart';
 import 'package:aile_cuzdani/core/extensions/response_extension.dart';
 import 'package:aile_cuzdani/core/model/dto_user.dart';
@@ -17,6 +19,8 @@ class AuthenticationServices {
       responseModel: DTOResponse(),
       body: request,
     );
+
+    inspect(response);
 
     BuildContext context = LoadingUtils.instance.mainBuildContext!;
 

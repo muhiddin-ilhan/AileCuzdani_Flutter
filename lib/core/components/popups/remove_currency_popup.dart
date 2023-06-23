@@ -67,7 +67,7 @@ Future<bool?> showRemoveCurrencyPopup(BuildContext context, {DTOBucket? bucket})
               : null,
           onChanged: (text) {
             double val = double.tryParse(text) ?? -1;
-            currencyCountError = val < 0 ? "" : null;
+            currencyCountError = val < 0 || val > bucket!.count! ? "" : null;
             setState(() {});
           },
           minWidthPrefix: 40,
@@ -220,7 +220,8 @@ Future<bool?> showRemoveCurrencyPopup(BuildContext context, {DTOBucket? bucket})
                   context,
                   enabled: selectedBankAccount != null &&
                       (double.tryParse(currencyCountController.text) ?? -1) > 0 &&
-                      (double.tryParse(currencyValueController.text) ?? -1) > 0,
+                      (double.tryParse(currencyValueController.text) ?? -1) > 0 &&
+                      (double.tryParse(currencyCountController.text) ?? -1) <= bucket!.count!,
                   onClear: () async {
                     if (Navigator.canPop(context)) {
                       Navigator.pop(context, true);

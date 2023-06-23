@@ -26,6 +26,7 @@ Future<bool?> showAddGoldPopup(BuildContext context, {DTOBucket? bucket}) async 
   String? goldValueError = "";
 
   Provider.of<BucketProvider>(context, listen: false).getBuckets(context);
+  Provider.of<BucketProvider>(context, listen: false).getCreditCards(context);
 
   List<Widget> getGoldTypeDropdownArea(Function(void Function()) setState) {
     return [
@@ -48,6 +49,9 @@ Future<bool?> showAddGoldPopup(BuildContext context, {DTOBucket? bucket}) async 
             context,
             onSelected: (String? goldType) {
               selectedGoldType = goldType;
+              if (goldType != "Gram Altın") {
+                selectedPlatform = "Serbest Piyasa";
+              }
               setState(() {});
             },
             value: selectedGoldType,
@@ -194,7 +198,7 @@ Future<bool?> showAddGoldPopup(BuildContext context, {DTOBucket? bucket}) async 
               selectedBankAccount = bucket;
               setState(() {});
             },
-            items: providerBucket.buckets,
+            items: providerBucket.buckets + providerBucket.creditCards,
             height: 40,
             value: selectedBankAccount,
             loading: providerBucket.isLoading,

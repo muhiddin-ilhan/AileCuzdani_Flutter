@@ -7,9 +7,7 @@ extension ValidationExtension on String {
   }
 
   bool passwordValidation() {
-    RegExp passwordRegex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$');
-    if (passwordRegex.hasMatch(this)) return true;
-
+    if (length > 8) return true;
     return false;
   }
 

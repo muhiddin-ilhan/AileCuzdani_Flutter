@@ -206,35 +206,6 @@ Future<bool?> showAddCreditCardPopup(BuildContext context, {bool isEditing = fal
     ];
   }
 
-  Widget showMyAssetsToggle(Function(void Function()) setState) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(13, 10, 3, 0),
-      child: Row(
-        children: [
-          const Text(
-            "Varlıklarıma Dahil Et",
-            style: TextStyle(
-              fontFamily: "JosefinSans",
-              color: Color.fromARGB(255, 33, 33, 33),
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const Spacer(),
-          Switch(
-            value: isShowMyAssets,
-            activeColor: CustomColors.GREEN,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            onChanged: (val) {
-              isShowMyAssets = val;
-              setState(() {});
-            },
-          )
-        ],
-      ),
-    );
-  }
-
   Padding button(BuildContext context, {required Function() onTap, required Function() onClear, required bool enabled}) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -289,7 +260,6 @@ Future<bool?> showAddCreditCardPopup(BuildContext context, {bool isEditing = fal
                 ...cardLimitArea(setState),
                 ...cardBorrowArea(setState),
                 ...cardLastDayArea(setState),
-                if (isEditing) showMyAssetsToggle(setState),
                 button(
                   context,
                   enabled: errorTitleName == null &&

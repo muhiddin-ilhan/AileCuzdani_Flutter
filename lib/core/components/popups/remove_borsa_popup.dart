@@ -67,7 +67,7 @@ Future<bool?> showRemoveBorsaPopup(BuildContext context, {DTOBucket? bucket}) as
               : null,
           onChanged: (text) {
             double val = double.tryParse(text) ?? -1;
-            borsaCountError = val < 0 ? "" : null;
+            borsaCountError = val < 0 || val > bucket!.count! ? "" : null;
             setState(() {});
           },
           maxLength: 8,
@@ -219,7 +219,8 @@ Future<bool?> showRemoveBorsaPopup(BuildContext context, {DTOBucket? bucket}) as
                   context,
                   enabled: selectedBankAccount != null &&
                       (double.tryParse(borsaCountController.text) ?? -1) > 0 &&
-                      (double.tryParse(borsaValueController.text) ?? -1) > 0,
+                      (double.tryParse(borsaValueController.text) ?? -1) > 0 &&
+                      (double.tryParse(borsaCountController.text) ?? -1) <= bucket!.count!,
                   onClear: () async {
                     if (Navigator.canPop(context)) {
                       Navigator.pop(context, true);

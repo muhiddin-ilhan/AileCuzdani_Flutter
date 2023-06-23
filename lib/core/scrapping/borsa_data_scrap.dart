@@ -14,7 +14,9 @@ class BorsaDataScrap {
     List<DTOBucket>? response = await BucketServices.getAllFamilyBucket(type: 4);
 
     if (response == null) {
-      customSnackBar(context, message: "Bir Hata Oluştu");
+      return false;
+    }
+    if (response.isEmpty) {
       return false;
     }
 

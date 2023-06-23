@@ -14,38 +14,44 @@ class CurrencyDataScrap {
     List<DTOBucket>? response = await BucketServices.getAllFamilyBucket(type: 3);
 
     if (response == null) {
-      customSnackBar(context, message: "Bir Hata Oluştu");
+      return false;
+    }
+    if (response.isEmpty) {
       return false;
     }
 
     List<DTOBucket>? dolars = response.where((element) => element.currency_type == "Dolar").toList();
-    bool resultDolar = await _updateDolar(dolars);
+    if (dolars.isNotEmpty) {
+      bool resultDolar = await _updateDolar(dolars);
 
-    if (!resultDolar) {
-      customSnackBar(context, message: "Dolar Fiyatı Güncellenemedi");
-      return false;
-    }
+      if (!resultDolar) {
+        customSnackBar(context, message: "Dolar Fiyatı Güncellenemedi");
+        return false;
+      }
 
-    bool updateDolarResult = await BucketServices.bulkEditBucket(dolars);
+      bool updateDolarResult = await BucketServices.bulkEditBucket(dolars);
 
-    if (!updateDolarResult) {
-      customSnackBar(context, message: "Dolar Fiyatı Güncellenemedi");
-      return false;
+      if (!updateDolarResult) {
+        customSnackBar(context, message: "Dolar Fiyatı Güncellenemedi");
+        return false;
+      }
     }
 
     List<DTOBucket>? euros = response.where((element) => element.currency_type == "Euro").toList();
-    bool resultEuro = await _updateEuro(euros);
+    if (euros.isNotEmpty) {
+      bool resultEuro = await _updateEuro(euros);
 
-    if (!resultEuro) {
-      customSnackBar(context, message: "Euro Fiyatı Güncellenemedi");
-      return false;
-    }
+      if (!resultEuro) {
+        customSnackBar(context, message: "Euro Fiyatı Güncellenemedi");
+        return false;
+      }
 
-    bool updateEuroResult = await BucketServices.bulkEditBucket(euros);
+      bool updateEuroResult = await BucketServices.bulkEditBucket(euros);
 
-    if (!updateEuroResult) {
-      customSnackBar(context, message: "Euro Fiyatı Güncellenemedi");
-      return false;
+      if (!updateEuroResult) {
+        customSnackBar(context, message: "Euro Fiyatı Güncellenemedi");
+        return false;
+      }
     }
 
     return true;
@@ -165,7 +171,7 @@ class CurrencyDataScrap {
   }
 
   static Future<bool> _updateEuro(List<DTOBucket> euro) async {
-    final response = await http.Client().get(Uri.parse('https://canlidoviz.com/doviz-kurlari/dolar'));
+    final response = await http.Client().get(Uri.parse('https://canlidoviz.com/doviz-kurlari/euro'));
     if (response.statusCode == 200) {
       Document document = parser.parse(response.body);
       try {

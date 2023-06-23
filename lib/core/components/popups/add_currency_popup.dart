@@ -26,6 +26,7 @@ Future<bool?> showAddCurrencyPopup(BuildContext context) async {
   String? currencyValueError = "";
 
   Provider.of<BucketProvider>(context, listen: false).getBuckets(context);
+  Provider.of<BucketProvider>(context, listen: false).getCreditCards(context);
 
   List<Widget> getCurrencyTypeDropdownArea(Function(void Function()) setState) {
     return [
@@ -194,7 +195,7 @@ Future<bool?> showAddCurrencyPopup(BuildContext context) async {
               selectedBankAccount = bucket;
               setState(() {});
             },
-            items: providerBucket.buckets,
+            items: providerBucket.buckets + providerBucket.creditCards,
             height: 40,
             value: selectedBankAccount,
             loading: providerBucket.isLoading,

@@ -93,7 +93,7 @@ Future<bool?> showBorrowsPayBorrowPopup(BuildContext context) async {
               : null,
           onChanged: (text) {
             double val = double.tryParse(text) ?? -1;
-            moneyError = val < 0 ? "" : null;
+            moneyError = val < 0 || val > selectedBorrow!.total_borrow! ? "" : null;
             setState(() {});
           },
           minWidthPrefix: 40,
@@ -159,7 +159,10 @@ Future<bool?> showBorrowsPayBorrowPopup(BuildContext context) async {
                 ...getSelectCardArea(setState),
                 button(
                   context,
-                  enabled: selectedBankAccount != null && selectedBorrow != null && ((double.tryParse(moneyController.text) ?? 0.0) > 0),
+                  enabled: selectedBankAccount != null &&
+                      selectedBorrow != null &&
+                      ((double.tryParse(moneyController.text) ?? 0.0) > 0) &&
+                      (selectedBorrow != null ? ((double.tryParse(moneyController.text) ?? 0.0) <= selectedBorrow!.total_borrow!) : true),
                   onClear: () async {
                     if (Navigator.canPop(context)) {
                       Navigator.pop(context, true);
