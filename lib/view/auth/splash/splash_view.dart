@@ -1,4 +1,6 @@
 import 'package:aile_cuzdani/core/base/base_view.dart';
+import 'package:aile_cuzdani/core/components/custom_snack_bar.dart';
+import 'package:aile_cuzdani/core/components/popups/app_update_popup.dart';
 import 'package:aile_cuzdani/view/auth/splash/splash_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -21,7 +23,15 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      viewModel.isAuthenticate(context);
+      viewModel.checkVersion(context).then((result) {
+        if (result == 1) {
+          viewModel.isAuthenticate(context);
+        } else if (result == -1) {
+          showAppUpdatePopup(context);
+        } else {
+          customSnackBar(context, message: "İnternet Bağlantınızı Kontrol Ediniz, İnternetiniz Var İse Daha Sonra Tekrar Deneyiniz");
+        }
+      });
     });
   }
 

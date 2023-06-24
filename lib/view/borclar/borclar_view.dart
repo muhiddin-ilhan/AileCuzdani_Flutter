@@ -56,30 +56,28 @@ class _BorclarViewState extends State<BorclarView> {
           body: Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, top: 12),
             child: SingleChildScrollView(
-              child: Expanded(
-                child: Observer(builder: (_) {
-                  return Column(
-                    children: [
-                      payBorrow(),
-                      ListView.builder(
-                        itemCount: viewModel.borrows.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (_, i) => BorcCard(
-                          borrows: viewModel.borrows[i],
-                          onTap: () async {
-                            bool? result = await showPayBorrowPopup(context, borrow: viewModel.borrows[i]);
-                            if (result == true) {
-                              viewModel.getBorrows();
-                            }
-                          },
-                        ),
+              child: Observer(builder: (_) {
+                return Column(
+                  children: [
+                    payBorrow(),
+                    ListView.builder(
+                      itemCount: viewModel.borrows.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (_, i) => BorcCard(
+                        borrows: viewModel.borrows[i],
+                        onTap: () async {
+                          bool? result = await showPayBorrowPopup(context, borrow: viewModel.borrows[i]);
+                          if (result == true) {
+                            viewModel.getBorrows();
+                          }
+                        },
                       ),
-                      const SizedBox(height: 86),
-                    ],
-                  );
-                }),
-              ),
+                    ),
+                    const SizedBox(height: 86),
+                  ],
+                );
+              }),
             ),
           ),
         ),

@@ -25,6 +25,22 @@ mixin _$DovizViewModel on DovizViewModelBase, Store {
     });
   }
 
+  late final _$totalValueAtom =
+      Atom(name: 'DovizViewModelBase.totalValue', context: context);
+
+  @override
+  double get totalValue {
+    _$totalValueAtom.reportRead();
+    return super.totalValue;
+  }
+
+  @override
+  set totalValue(double value) {
+    _$totalValueAtom.reportWrite(value, super.totalValue, () {
+      super.totalValue = value;
+    });
+  }
+
   late final _$isLoadingAtom =
       Atom(name: 'DovizViewModelBase.isLoading', context: context);
 
@@ -67,6 +83,7 @@ mixin _$DovizViewModel on DovizViewModelBase, Store {
   String toString() {
     return '''
 currencies: ${currencies},
+totalValue: ${totalValue},
 isLoading: ${isLoading}
     ''';
   }

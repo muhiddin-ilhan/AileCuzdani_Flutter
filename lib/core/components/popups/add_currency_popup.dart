@@ -12,7 +12,6 @@ import 'package:aile_cuzdani/core/model/dto_bucket.dart';
 import 'package:aile_cuzdani/core/providers/bucket_provider.dart';
 import 'package:aile_cuzdani/core/utils/loading_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 Future<bool?> showAddCurrencyPopup(BuildContext context) async {
@@ -44,16 +43,14 @@ Future<bool?> showAddCurrencyPopup(BuildContext context) async {
       ),
       Padding(
         padding: const EdgeInsets.fromLTRB(10, 3, 10, 0),
-        child: Observer(builder: (_) {
-          return currencyDropdown(
-            context,
-            onSelected: (String? currencyType) {
-              selectedCurrencyType = currencyType;
-              setState(() {});
-            },
-            value: selectedCurrencyType,
-          );
-        }),
+        child: currencyDropdown(
+          context,
+          onSelected: (String? currencyType) {
+            selectedCurrencyType = currencyType;
+            setState(() {});
+          },
+          value: selectedCurrencyType,
+        ),
       ),
     ];
   }
@@ -158,17 +155,15 @@ Future<bool?> showAddCurrencyPopup(BuildContext context) async {
       ),
       Padding(
         padding: const EdgeInsets.fromLTRB(10, 3, 10, 0),
-        child: Observer(builder: (_) {
-          return currencyPlatformDropdown(
-            context,
-            isDolar: selectedCurrencyType == "Dolar",
-            onSelected: (String? platform) {
-              selectedPlatform = platform;
-              setState(() {});
-            },
-            value: selectedPlatform,
-          );
-        }),
+        child: currencyPlatformDropdown(
+          context,
+          isDolar: selectedCurrencyType == "Dolar",
+          onSelected: (String? platform) {
+            selectedPlatform = platform;
+            setState(() {});
+          },
+          value: selectedPlatform,
+        ),
       ),
     ];
   }

@@ -174,18 +174,16 @@ Future<bool?> showFilterTransactionPopup(BuildContext context, TransactionsViewM
       ),
       Padding(
         padding: const EdgeInsets.fromLTRB(10, 3, 10, 0),
-        child: Observer(builder: (_) {
-          return Consumer<BucketProvider>(builder: (_, providerBucket, __) {
-            return bucketDropdown(
-              onSelected: (DTOBucket? bucket) {
-                selectedBucket = bucket;
-              },
-              items: providerBucket.buckets + providerBucket.creditCards,
-              height: 40,
-              value: selectedBucket ?? viewModel.filterBucket,
-              loading: providerBucket.isLoading || viewModel.isLoading,
-            );
-          });
+        child: Consumer<BucketProvider>(builder: (_, providerBucket, __) {
+          return bucketDropdown(
+            onSelected: (DTOBucket? bucket) {
+              selectedBucket = bucket;
+            },
+            items: providerBucket.buckets + providerBucket.creditCards,
+            height: 40,
+            value: selectedBucket ?? viewModel.filterBucket,
+            loading: providerBucket.isLoading || viewModel.isLoading,
+          );
         }),
       ),
     ];

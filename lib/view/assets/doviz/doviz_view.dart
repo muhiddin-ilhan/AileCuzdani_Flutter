@@ -41,28 +41,26 @@ class _DovizViewState extends State<DovizView> {
         floatingActionButton: addCardButton(),
         appBar: appBar(context),
         body: SingleChildScrollView(
-          child: Expanded(
-            child: Observer(builder: (_) {
-              return Column(
-                children: [
-                  topInfoSection(),
-                  currencyAssetsList(
-                    viewModel.currencies,
-                    onTap: (DTOBucket bucket) async {
-                      bool? result = await showRemoveCurrencyPopup(context, bucket: bucket);
-                      if (result == true) {
-                        LoadingUtils.instance.loading(true);
-                        await CurrencyDataScrap.updateAllCurrencyData(context);
-                        viewModel.getCurrencies();
-                      }
-                    },
-                    isScroll: false,
-                  ),
-                  const SizedBox(height: 86),
-                ],
-              );
-            }),
-          ),
+          child: Observer(builder: (_) {
+            return Column(
+              children: [
+                topInfoSection(),
+                currencyAssetsList(
+                  viewModel.currencies,
+                  onTap: (DTOBucket bucket) async {
+                    bool? result = await showRemoveCurrencyPopup(context, bucket: bucket);
+                    if (result == true) {
+                      LoadingUtils.instance.loading(true);
+                      await CurrencyDataScrap.updateAllCurrencyData(context);
+                      viewModel.getCurrencies();
+                    }
+                  },
+                  isScroll: false,
+                ),
+                const SizedBox(height: 86),
+              ],
+            );
+          }),
         ),
       ),
     );
@@ -100,17 +98,15 @@ class _DovizViewState extends State<DovizView> {
                   ),
                 ),
               ),
-              Observer(builder: (_) {
-                return Text(
-                  "₺${viewModel.totalValue.currencyFormat()}",
-                  style: const TextStyle(
-                    color: CustomColors.LIGHT_BLACK,
-                    fontFamily: "JosefinSans",
-                    fontSize: 13,
-                    height: 1,
-                  ),
-                );
-              }),
+              Text(
+                "₺${viewModel.totalValue.currencyFormat()}",
+                style: const TextStyle(
+                  color: CustomColors.LIGHT_BLACK,
+                  fontFamily: "JosefinSans",
+                  fontSize: 13,
+                  height: 1,
+                ),
+              ),
             ],
           ),
         ),

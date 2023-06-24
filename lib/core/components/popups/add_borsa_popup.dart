@@ -12,7 +12,6 @@ import 'package:aile_cuzdani/core/model/dto_bucket.dart';
 import 'package:aile_cuzdani/core/providers/bucket_provider.dart';
 import 'package:aile_cuzdani/core/utils/loading_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 Future<bool?> showAddBorsaPopup(BuildContext context) async {
@@ -199,16 +198,14 @@ Future<bool?> showAddBorsaPopup(BuildContext context) async {
       ),
       Padding(
         padding: const EdgeInsets.fromLTRB(10, 3, 10, 0),
-        child: Observer(builder: (_) {
-          return borsaPlatformDropdown(
-            context,
-            onSelected: (String? platform) {
-              selectedPlatform = platform;
-              setState(() {});
-            },
-            value: selectedPlatform,
-          );
-        }),
+        child: borsaPlatformDropdown(
+          context,
+          onSelected: (String? platform) {
+            selectedPlatform = platform;
+            setState(() {});
+          },
+          value: selectedPlatform,
+        ),
       ),
     ];
   }

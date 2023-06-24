@@ -42,28 +42,26 @@ class _AltinViewState extends State<AltinView> {
         floatingActionButton: addCardButton(),
         appBar: appBar(context),
         body: SingleChildScrollView(
-          child: Expanded(
-            child: Observer(builder: (_) {
-              return Column(
-                children: [
-                  topInfoSection(),
-                  goldAssetsList(
-                    viewModel.golds,
-                    onTap: (DTOBucket bucket) async {
-                      bool? result = await showRemoveGoldPopup(context, bucket: bucket);
-                      if (result == true) {
-                        LoadingUtils.instance.loading(true);
-                        await GoldDataScrap.updateAllGoldData(context);
-                        viewModel.getGolds();
-                      }
-                    },
-                    isScroll: false,
-                  ),
-                  const SizedBox(height: 86),
-                ],
-              );
-            }),
-          ),
+          child: Observer(builder: (_) {
+            return Column(
+              children: [
+                topInfoSection(),
+                goldAssetsList(
+                  viewModel.golds,
+                  onTap: (DTOBucket bucket) async {
+                    bool? result = await showRemoveGoldPopup(context, bucket: bucket);
+                    if (result == true) {
+                      LoadingUtils.instance.loading(true);
+                      await GoldDataScrap.updateAllGoldData(context);
+                      viewModel.getGolds();
+                    }
+                  },
+                  isScroll: false,
+                ),
+                const SizedBox(height: 86),
+              ],
+            );
+          }),
         ),
       ),
     );
@@ -101,17 +99,15 @@ class _AltinViewState extends State<AltinView> {
                   ),
                 ),
               ),
-              Observer(builder: (_) {
-                return Text(
-                  "₺${viewModel.goldTotalValue.currencyFormat()}",
-                  style: const TextStyle(
-                    color: CustomColors.LIGHT_BLACK,
-                    fontFamily: "JosefinSans",
-                    fontSize: 13,
-                    height: 1,
-                  ),
-                );
-              }),
+              Text(
+                "₺${viewModel.goldTotalValue.currencyFormat()}",
+                style: const TextStyle(
+                  color: CustomColors.LIGHT_BLACK,
+                  fontFamily: "JosefinSans",
+                  fontSize: 13,
+                  height: 1,
+                ),
+              ),
             ],
           ),
         ),

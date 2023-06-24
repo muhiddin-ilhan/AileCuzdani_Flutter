@@ -25,6 +25,22 @@ mixin _$AltinViewModel on AltinViewModelBase, Store {
     });
   }
 
+  late final _$goldTotalValueAtom =
+      Atom(name: 'AltinViewModelBase.goldTotalValue', context: context);
+
+  @override
+  double get goldTotalValue {
+    _$goldTotalValueAtom.reportRead();
+    return super.goldTotalValue;
+  }
+
+  @override
+  set goldTotalValue(double value) {
+    _$goldTotalValueAtom.reportWrite(value, super.goldTotalValue, () {
+      super.goldTotalValue = value;
+    });
+  }
+
   late final _$isLoadingAtom =
       Atom(name: 'AltinViewModelBase.isLoading', context: context);
 
@@ -67,6 +83,7 @@ mixin _$AltinViewModel on AltinViewModelBase, Store {
   String toString() {
     return '''
 golds: ${golds},
+goldTotalValue: ${goldTotalValue},
 isLoading: ${isLoading}
     ''';
   }

@@ -124,7 +124,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: bad72cb363809015b1f7f19beb1f1cd23c589f95
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
-  package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
+  package_info_plus: fd030dabf36271f146f1f3beacd48f564b0f17f7
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   rate_my_app: 96f658ddb7f0a8d2f46d54452583f084760aef57
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad

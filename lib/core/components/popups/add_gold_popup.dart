@@ -12,7 +12,6 @@ import 'package:aile_cuzdani/core/model/dto_bucket.dart';
 import 'package:aile_cuzdani/core/providers/bucket_provider.dart';
 import 'package:aile_cuzdani/core/utils/loading_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 Future<bool?> showAddGoldPopup(BuildContext context, {DTOBucket? bucket}) async {
@@ -44,19 +43,17 @@ Future<bool?> showAddGoldPopup(BuildContext context, {DTOBucket? bucket}) async 
       ),
       Padding(
         padding: const EdgeInsets.fromLTRB(10, 3, 10, 0),
-        child: Observer(builder: (_) {
-          return goldDropdown(
-            context,
-            onSelected: (String? goldType) {
-              selectedGoldType = goldType;
-              if (goldType != "Gram Altın") {
-                selectedPlatform = "Serbest Piyasa";
-              }
-              setState(() {});
-            },
-            value: selectedGoldType,
-          );
-        }),
+        child: goldDropdown(
+          context,
+          onSelected: (String? goldType) {
+            selectedGoldType = goldType;
+            if (goldType != "Gram Altın") {
+              selectedPlatform = "Serbest Piyasa";
+            }
+            setState(() {});
+          },
+          value: selectedGoldType,
+        ),
       ),
     ];
   }
@@ -161,17 +158,15 @@ Future<bool?> showAddGoldPopup(BuildContext context, {DTOBucket? bucket}) async 
       ),
       Padding(
         padding: const EdgeInsets.fromLTRB(10, 3, 10, 0),
-        child: Observer(builder: (_) {
-          return goldPlatformDropdown(
-            context,
-            isGram: selectedGoldType == "Gram Altın",
-            onSelected: (String? platform) {
-              selectedPlatform = platform;
-              setState(() {});
-            },
-            value: selectedPlatform,
-          );
-        }),
+        child: goldPlatformDropdown(
+          context,
+          isGram: selectedGoldType == "Gram Altın",
+          onSelected: (String? platform) {
+            selectedPlatform = platform;
+            setState(() {});
+          },
+          value: selectedPlatform,
+        ),
       ),
     ];
   }

@@ -25,6 +25,22 @@ mixin _$BorsaViewModel on BorsaViewModelBase, Store {
     });
   }
 
+  late final _$totalValueAtom =
+      Atom(name: 'BorsaViewModelBase.totalValue', context: context);
+
+  @override
+  double get totalValue {
+    _$totalValueAtom.reportRead();
+    return super.totalValue;
+  }
+
+  @override
+  set totalValue(double value) {
+    _$totalValueAtom.reportWrite(value, super.totalValue, () {
+      super.totalValue = value;
+    });
+  }
+
   late final _$isLoadingAtom =
       Atom(name: 'BorsaViewModelBase.isLoading', context: context);
 
@@ -67,6 +83,7 @@ mixin _$BorsaViewModel on BorsaViewModelBase, Store {
   String toString() {
     return '''
 borsas: ${borsas},
+totalValue: ${totalValue},
 isLoading: ${isLoading}
     ''';
   }
